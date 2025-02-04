@@ -11,7 +11,7 @@
         <div class="col-8">
             <div class="card">
                 <div class="card-header">
-                    <h4>Les valeurs</h4>
+                    <h4>Les valeurs  {{$domaineValeursElements->libele}}</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('domaine_valeurs', function (Blueprint $table) {
+        Schema::create('objects', function (Blueprint $table) {
             $table->id()->index();
             $table->string('libele')->unique();
             $table->string('description')->nullable();
-            $table->enum('type',['0','1','2'])->default('0');  // 0 can delete. //1 canot delete // 2 is folder_state
             $table->timestamps();
+
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('domaine_valeurs');
+        Schema::dropIfExists('objects');
     }
 };

@@ -28,39 +28,40 @@
                                 <th class="text-center">
                                     #
                                 </th>
-                                <th>Matricule</th>
-                                <th>Nom</th>
-                                <th>Prenom</th>
-                                <th>Sexe</th>
-                                <th>Fonction</th>
+                                <th>Code</th>
+                                <th>Activites</th>
+                                <th>Typologie</th>
+                                <th>Valeur Cible</th>
+
                                 <th>Action</th>
 
                             </tr>
                             </thead>
                             <tbody>
-{{--                            @foreach($intervenants  as $key => $value)--}}
-{{--                                <tr>--}}
-{{--                                    <td>{{$key+1}}</td>--}}
-{{--                                    <td>{{$value->matricule}}</td>--}}
-{{--                                    <td>{{$value->lastname}}</td>--}}
-{{--                                    <td>{{$value->firstname}}</td>--}}
-{{--                                    <td>{{$value->sex}}</td>--}}
-{{--                                    <td>{{$value->domaineElement->libele}}</td>--}}
-{{--                                    <td>--}}
-{{--                                        <div class="dropdown d-inline">--}}
-{{--                                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2"--}}
-{{--                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
-{{--                                                Options--}}
-{{--                                            </button>--}}
-{{--                                            <div class="dropdown-menu">--}}
-{{--                                                <a class="dropdown-item has-icon" ><i class="fa fa-eye"></i> Voir details</a>--}}
-{{--                                                <a class="dropdown-item has-icon" href="{{route('intervenants.show',$value)}}" href="#"><i class="fa fa-edit"></i> Edit</a>--}}
-{{--                                                <a class="dropdown-item has-icon"  onclick="show_delete_intervenant({{json_encode($value)}})" href=""><i class="fa fa-trash"></i> Supprimer</a>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                </tr>--}}
-{{--                            @endforeach--}}
+                            @foreach($Objectifs  as $key => $value)
+
+                                <tr>
+                                    <td>{{$key+1}}</td>
+                                    <td>{{$value->code}}</td>
+                                    <td>{{$value->activites->libele}}</td>
+                                    <td>{{$value->typologies->libele}}</td>
+
+                                    <td>{{$value->valeur_cible}} {{$value->unite->libele}} / {{$value->periodicites->libele}}</td>
+
+                                    <td>
+                                        <div class="dropdown d-inline">
+                                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Options
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item has-icon" href="#" href="#"><i class="fa fa-edit"></i> Edit</a>
+                                                <a class="dropdown-item has-icon"  onclick="show_delete_intervenant({{$value->id}})" href=""><i class="fa fa-trash"></i> Supprimer</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
 
                         </table>
@@ -68,6 +69,7 @@
                 </div>
             </div>
         </div>
+{{--        @dump($unites->domaine_valeurs_elements)--}}
 
         <div class="col-4">
             <div class="card">
@@ -76,35 +78,49 @@
                 </div>
                 <div class="card-body">
 
-                    <form method="POST" action="{{route('intervenants.store')}}">
+                    <form method="POST" action="{{route('objectifs.store')}}">
                         @csrf
                         @method('POST')
                         <div class="form-group">
                             <label>Code : </label>
-                            <input type="text" class="form-control" name="matricule" required placeholder="Entrez le code   ">
+                            <input type="text" class="form-control" name="code" required placeholder="Entrez le code   ">
                         </div>
                         <div class="form-group">
                             <label>Activites </label>
-                            <select class="form-control" required name="fonction">
-
+                            <select class="form-control" required name="activite">
+                                @foreach($activites->domaine_valeurs_elements as $key => $value)
+                                    <option value="{{$value->id}}">{{ $value->libele }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Typologie </label>
-                            <select class="form-control" required name="fonction">
-
+                            <select class="form-control" required name="typologie">
+                                @foreach($typologie->domaine_valeurs_elements as $key => $value)
+                                    <option value="{{$value->id}}">{{ $value->libele }}</option>
+                                @endforeach
                             </select>
                         </div>
-
                         <div class="form-group">
-                            <label>Objectifs </label>
-                            <select class="form-control" required name="fonction">
-
-                            </select>
+                            <label>Valeur cible </label>
+                            <div style="display: flex; gap: 10px;">
+                                <input class="form-control" type="number" name="valeur_cible" style="flex: 2;">
+                                <select class="form-control" required name="unites"  style="flex: 1;">
+                                        @foreach($unites->domaine_valeurs_elements as $key => $value)
+                                            <option value="{{$value->id}}">{{ $value->libele }}</option>
+                                        @endforeach
+                                </select>
+                                <select class="form-control" required name="periodicite" style="flex: 1;">
+                                    @foreach($periodicites->domaine_valeurs_elements as $key => $value)
+                                        <option value="{{$value->id}}">{{ $value->libele }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
+
                         <div class="form-group">
                             <label>Commentaire : </label>
-                            <textarea type="text" class="form-control" name="matricule" required placeholder="Entrez le commentaire"></textarea>
+                            <textarea type="text" class="form-control" name="commentaires" required placeholder="Entrez le commentaire"></textarea>
                         </div>
 
                         <div class="form-group">
@@ -125,30 +141,20 @@
     <script src="{{asset('assets/bundles/prism/prism.js')}}"></script>
     <script src="{{ asset('assets/bundles/sweetalert/sweetalert.min.js') }}"></script>
     <script>
-        document.getElementById('toggle-additional-fields').addEventListener('click', function() {
-            var additionalFields = document.querySelector('.additional-fields');
-            if (additionalFields.style.display === 'none') {
-                additionalFields.style.display = 'block';
-                this.textContent = 'Moins';
-            } else {
-                additionalFields.style.display = 'none';
-                this.textContent = 'Plus';
-            }
-        });
 
         function show_delete_intervenant(id) {
             console.log(id)
             event.preventDefault();
             swal({
-                title: '{{ __('message._are_you_sure_you_want_to_delete') }}'
-                , text: '{{ __('message._once_deleted') }}'
+                title: 'Attention !'
+                , text: 'Voulez-vous vraiment supprime ??'
                 , icon: 'warning'
                 , buttons: true
                 , dangerMode: true
                 , })
                 .then((willDelete) => {
                     if (willDelete) {
-                        var url = "{{ route('intervenants.destroy', ':id') }}";
+                        var url = "{{ route('objectifs.destroy', ':id') }}";
                         url = url.replace(':id', id);
 
                         var xhr = new XMLHttpRequest();
@@ -160,10 +166,8 @@
                                 var response = JSON.parse(xhr.responseText);
                                 console.log(response);
                                 if (response === 'ok') {
-
                                     location.reload();
                                 } else {
-
                                     location.reload();
                                 }
                             }

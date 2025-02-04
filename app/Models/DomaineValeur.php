@@ -16,15 +16,6 @@ class DomaineValeur extends Model
         'description',
         'type',
     ];
-    protected static function boot(): void
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = Str::uuid()->toString();
-            }
-        });
-    }
 
     public function domaine_valeurs_elements(): HasMany
     {

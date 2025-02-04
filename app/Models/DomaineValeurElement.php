@@ -15,13 +15,5 @@ class DomaineValeurElement extends Model
     {
         return $this->belongsTo(DomaineValeur::class, 'id_domaine');
     }
-    protected static function boot(): void
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = Str::uuid()->toString();
-            }
-        });
-    }
+
 }

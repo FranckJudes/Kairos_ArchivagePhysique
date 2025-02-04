@@ -33,15 +33,7 @@ class Intervenant extends Model
         'date_of_birth' => 'date',
         'date_integration' => 'date'
     ];
-    protected static function boot(): void
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = Str::uuid()->toString();
-            }
-        });
-    }
+
 
 
     public function domaineElement(): BelongsTo

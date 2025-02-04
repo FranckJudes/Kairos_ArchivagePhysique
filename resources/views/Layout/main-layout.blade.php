@@ -13,6 +13,7 @@
 
     <!-- Bootstrap Core and vandor -->
     <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/plugins/fullcalendar/fullcalendar.min.css')}}">
 
     <!-- Plugins css -->
     <link rel="stylesheet" href="{{asset('assets/plugins/charts-c3/c3.min.css')}}"/>
@@ -20,8 +21,6 @@
     <!-- Core css -->
     <link rel="stylesheet" href="{{asset('assets/css/main.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/css/theme1.css')}}"/>
-{{--    <link rel="stylesheet" href="{{asset('assets/bundles/prism/prism.css')}}">--}}
-    <link rel="stylesheet" href="{{asset('assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">
 
 
 </head>
@@ -303,17 +302,18 @@
             <ul class="metismenu">
                 <li class="g_heading">Project</li>
                 <li class="active"><a href="index-2.html"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-                <li><a href="project-list.html"><i class="fa fa-list-ol"></i><span>Performances</span></a></li>
+                <li><a href="{{route('performances.index')}}"><i class="fa fa-list-ol"></i><span>Performances</span></a></li>
                 <li><a href="project-taskboard.html"><i class="fa fa-calendar-check-o"></i><span>Presences</span></a></li>
                 <li><a href="project-todo.html"><i class="fa fa-check-square-o"></i><span>Todo List</span></a></li>
                 <li class="g_heading">App</li>
 {{--                <li><a href="app-calendar.html"><i class="fa fa-calendar"></i><span>Calendar</span></a></li>--}}
 {{--                <li><a href="app-chat.html"><i class="fa fa-comments"></i><span></span></a></li>--}}
                 <li><a href="{{route('intervenants.index')}}"><i class="fa fa-address-book"></i><span>Intervenants</span></a></li>
-                <li><a href="{{route('objectifs.index')}}"><i class="fa fa-folder"></i><span>Activites</span></a></li>
-                <li><a href="app-setting.html"><i class="fa fa-gear"></i><span>Objects</span></a></li>
+{{--                <li><a href="{{route('objectifs.index')}}"><i class="fa fa-folder"></i><span>Activites</span></a></li>--}}
+                <li><a href="{{route('Objects.index')}}"><i class="fa fa-gear"></i><span>Objects</span></a></li>
                 <li><a href="{{route('objectifs.index')}}"><i class="fa fa-photo"></i><span>Objectifs</span></a></li>
                 <li><a href="{{route('domaine.index')}}"><i class="fa fa-photo"></i><span>Domaine de valeurs</span></a></li>
+                <li><a href="{{route('planification.index')}}"><i class="fa fa-support"></i><span>Planification</span></a></li>
 {{--                <li>--}}
 {{--                    <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Authentication</span></a>--}}
 {{--                    <ul>--}}
@@ -507,17 +507,16 @@
 </div>
 
 
-<script src="{{asset('assets/bundles/lib.vendor.bundle.js')}}"></script>
+    <script src="{{asset('assets/bundles/lib.vendor.bundle.js')}}"></script>
 
-<script src="{{asset('assets/bundles/apexcharts.bundle.js')}}"></script>
-<script src="{{asset('assets/bundles/counterup.bundle.js')}}"></script>
-<script src="{{asset('assets/bundles/knobjs.bundle.js')}}"></script>
-<script src="{{asset('assets/bundles/c3.bundle.js')}}"></script>
+    <script src="{{asset('assets/bundles/apexcharts.bundle.js')}}"></script>
+    <script src="{{asset('assets/bundles/counterup.bundle.js')}}"></script>
+    <script src="{{asset('assets/bundles/knobjs.bundle.js')}}"></script>
+    <script src="{{asset('assets/bundles/c3.bundle.js')}}"></script>
 
-<script src="{{asset('assets/js/core.js')}}"></script>
-<script src="{{asset('assets/js/page/project-index.js')}}"></script>
-{{--<script src="{{asset('assets/bundles/prism/prism.js')}}"></script>--}}
-@yield('scripts')
+    <script src="{{asset('assets/js/core.js')}}"></script>
+    <script src="{{asset('assets/js/page/project-index.js')}}"></script>
+    @yield('scripts')
 </body>
 
 <!-- soccer/project/  07 Jan 2020 03:37:22 GMT -->

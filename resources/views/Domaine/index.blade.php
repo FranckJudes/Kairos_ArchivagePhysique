@@ -51,7 +51,9 @@
                                                        <div class="dropdown-menu">
                                                            <a class="dropdown-item has-icon" href="{{route('domaine.show',$value)}}"><i class="fa fa-eye"></i> Voir details</a>
                                                            <a class="dropdown-item has-icon" href="#"><i class="fa fa-edit"></i> Edit</a>
-                                                           <a class="dropdown-item has-icon" href=""><i class="fa fa-trash"></i> Supprimer</a>
+                                                           @if($value->type !== '1')
+                                                               <a class="dropdown-item has-icon" href=""><i class="fa fa-trash"></i> Supprimer</a>
+                                                           @endif
                                                        </div>
                                                    </div>
                                                </td>

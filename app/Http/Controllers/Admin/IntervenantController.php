@@ -17,6 +17,7 @@ class IntervenantController extends Controller
      */
     public function index()
     {
+        $activites = DomaineValeur::where('libele','Activites')->with('domaine_valeurs_elements')->first();
         $domaineValeursElements = DomaineValeur::where('libele','Fonction des intervenants')->first();
         if ($domaineValeursElements) {
             $domaineValeursElements->domaine_valeurs_elements;
@@ -25,7 +26,7 @@ class IntervenantController extends Controller
         foreach ($intervenants as $intervenant) {
             $intervenant->domaineElement();
         }
-        return view('intervenants.index',compact('intervenants','domaineValeursElements'));
+        return view('intervenants.index',compact('intervenants','domaineValeursElements','activites'));
     }
 
     /**
@@ -55,14 +56,18 @@ class IntervenantController extends Controller
                 'info_connexes' => 'nullable|string|max:255',
                 'email' => 'nullable|email',
                 'phone' => 'nullable|string|max:20',
-                'photo_profil' => 'nullable|string',
+//                'photo_profil' => 'nullable|string',
                 'sex' => 'nullable|in:1,2',
             ]);
 
-            Intervenant::create([
+           $intervenant =  Intervenant::create([
                 ...$request->except('sex'),
                 'sex' => SexeEnum::from($request->sex)
             ]);
+            if ($request->hasFile('photo')) {
+//              $intervenant =
+                $path = $request->photo_profil->store('images');
+            }
 
             return redirect()->route('intervenants.index')->with('success', 'Intervenant ajouté avec succès.');
         }catch (\Exception $exception){

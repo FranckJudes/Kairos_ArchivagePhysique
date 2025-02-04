@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('domaine_valeur_elements', function (Blueprint $table) {
-            $table->uuid('id')->primary()->index();
+            $table->id()->index();
             $table->string('libele');
             $table->enum('type',['0','1'])->default('0'); //1 canot delete // 0 can delete.
-            $table->foreignUuid('id_domaine')->constrained('domaine_valeurs')->onDelete('cascade');
+            $table->foreignId('id_domaine')->constrained('domaine_valeurs')->onDelete('cascade');
             $table->timestamps();
         });
     }

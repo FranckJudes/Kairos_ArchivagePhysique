@@ -1,8 +1,9 @@
 @extends('Layout.main-layout')
 @section('styles')
-    <link rel="{{asset('stylesheet" href="assets/bundles/datatables/datatables.min.css')}}">
+    <link rel="stylesheet"  href="{{asset('assets/bundles/datatables/datatables.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/bundles/prism/prism.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/bundles/select2/dist/css/select2.min.css')}}">
 
 @endsection
 
@@ -46,31 +47,34 @@
                                             <h4>Formulaires :</h4>
                                         </div>
                                         <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <div class="form-group">
-                                                        <label>Intervenant : </label>
-                                                        <select class="form-control" onchange="change_intervenant(this)" multiple>
-                                                            <option value="0"> selectionner un internvenant :</option>
-                                                            @foreach($intervenants as $item)
-                                                                <option value=" {{ $item->id }}"> {{ $item->firstname }} - {{ $item->lastname }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                                            <form method="POST" action="{{route('intervenant_activites')}}">
+                                                @csrf
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <div class="form-group">
+                                                            <label>Intervenant : </label>
+                                                            <select class="js-example-basic-single form-control"  name="intervenants[]" multiple>
+                                                                @foreach($intervenants as $item)
+                                                                    <option value="{{ $item->id }}"> {{ $item->firstname }} - {{ $item->lastname }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
 
-                                                </div>
-                                                <div class="col-4">
-                                                    <label>activites : </label>
-                                                    <div class="form-group" style="display: flex; gap: 10px;">
-                                                        <select class="form-control" multiple>
-                                                            @foreach($activites->domaine_valeurs_elements as $item)
-                                                                 <option>{{$item->libele}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        <button class="btn btn-icon icon-left btn-primary" ><i class="fa fa-check"></i> </button>
+
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <label>activites : </label>
+                                                        <div class="form-group" style="display: flex; gap: 10px;">
+                                                            <select class="form-control select2-activities"  name="activites[]" multiple>
+                                                                @foreach($activites->domaine_valeurs_elements as $item)
+                                                                    <option value="{{ $item->id }}">{{$item->libele}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            <button class="btn btn-icon icon-left btn-primary" type="submit" ><i class="fa fa-check"></i> </button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -86,9 +90,8 @@
                                                 <th>Matricule</th>
                                                 <th>Nom</th>
                                                 <th>Prenom</th>
-                                                <th>Sexe</th>
-                                                <th>Fonction</th>
-                                                <th>Action</th>
+                                                <th colspan="2" >Atc</th>
+                                                <th></th>
 
                                             </tr>
                                             </thead>
@@ -100,9 +103,25 @@
                                                     <td>{{$value->lastname}}</td>
                                                     <td>{{$value->firstname}}</td>
                                                     <td>{{$value->sex}}</td>
-                                                    <td>{{$value->domaineElement->libele}}</td>
                                                     <td>
-                                                        <button class="btn btn-icon icon-left btn-primary" ><i class="fa fa-edit"></i> faire la liaision</button>
+{{--                                                        @foreach($value->activites as $item)--}}
+{{--                                                            <span class="badge badge-info">{{  $item->libele}}</span>--}}
+{{--                                                        @endforeach--}}
+                                                        @foreach($value->activites as $item)
+                                                            <span class="badge badge-info position-relative mr-2 mb-2">
+                                                                {{ $item->libele }}
+                                                                <form action="{{ route('intervenant_activites_detach') }}" method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    <input type="hidden" name="intervenants[]" value="{{ $value->id }}">
+                                                                    <input type="hidden" name="activites[]" value="{{ $item->id }}">
+                                                                    <button type="submit" class="btn btn-link text-danger p-0 ml-2"
+                                                                            style="position: absolute; top: -5px; right: -5px;"
+                                                                            onclick="return confirm('Voulez-vous vraiment retirer cette activité ?')">
+                                                                        <i class="fas fa-times-circle"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </span>
+                                                        @endforeach
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -267,10 +286,13 @@
 
 @endsection
 @section('scripts')
+    <script src="{{asset('assets/bundles/select2/dist/js/select2.full.min.js')}}"></script>
     <script src="{{asset('assets/bundles/datatables/datatables.min.js')}}"></script>
     <script src="{{asset('assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{asset('assets/bundles/jquery-ui/jquery-ui.min.js')}}"></script>
     <script src="{{asset('assets/js/page/datatables.js')}}"></script>
+{{--    <script src="{{asset('assets/js/page/forms-advanced-forms.js')}}"></script>--}}
+
     <script src="{{asset('assets/bundles/prism/prism.js')}}"></script>
     <script src="{{ asset('assets/bundles/sweetalert/sweetalert.min.js') }}"></script>
     <script>
@@ -285,6 +307,33 @@
             }
         });
 
+        $(document).ready(function() {
+            // Initialiser Select2
+            $('.js-example-basic-single').select2({
+                placeholder: "Sélectionnez l'intervenanant",
+                width: '100%'
+            });
+            $('.select2-activities').select2({
+                placeholder: "Sélectionnez les activités",
+                width: '100%'
+            });
+
+
+            // // Gérer l'ouverture du modal
+            // $('#addActivitesModal').on('show.bs.modal', function (event) {
+            //     var button = $(event.relatedTarget);
+            //     var intervenantId = button.data('intervenant-id');
+            //     var intervenantName = button.data('intervenant-name');
+            //
+            //     var modal = $(this);
+            //     modal.find('#selectedIntervenantId').val(intervenantId);
+            //     modal.find('#selectedIntervenantName').text(intervenantName);
+            //
+            //     // Réinitialiser la sélection
+            //     modal.find('select').val(null).trigger('change');
+            // });
+        });
+        //
         function show_delete_intervenant(id) {
             console.log(id)
             event.preventDefault();

@@ -15,6 +15,12 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
         });
+
+        Schema::create('domaine_intervenants', function (Blueprint $table) {
+            $table->foreignIdFor(\App\Models\DomaineValeurElement::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(\App\Models\Intervenant::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->primary(['domaine_valeur_element_id', 'intervenant_id']);
+        });
     }
 
     /**
@@ -23,5 +29,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('performances');
+        Schema::dropIfExists('domaine_performance');
+
     }
 };

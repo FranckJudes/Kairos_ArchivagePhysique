@@ -310,7 +310,7 @@
 {{--                <li><a href="app-chat.html"><i class="fa fa-comments"></i><span></span></a></li>--}}
                 <li><a href="{{route('intervenants.index')}}"><i class="fa fa-address-book"></i><span>Intervenants</span></a></li>
 {{--                <li><a href="{{route('objectifs.index')}}"><i class="fa fa-folder"></i><span>Activites</span></a></li>--}}
-                <li><a href="{{route('Objects.index')}}"><i class="fa fa-gear"></i><span>Objects</span></a></li>
+{{--                <li><a href="{{route('Objects.index')}}"><i class="fa fa-gear"></i><span>Objects</span></a></li>--}}
                 <li><a href="{{route('objectifs.index')}}"><i class="fa fa-photo"></i><span>Objectifs</span></a></li>
                 <li><a href="{{route('domaine.index')}}"><i class="fa fa-photo"></i><span>Domaine de valeurs</span></a></li>
                 <li><a href="{{route('planification.index')}}"><i class="fa fa-support"></i><span>Planification</span></a></li>

@@ -40,4 +40,8 @@ class Intervenant extends Model
     {
         return $this->belongsTo(DomaineValeurElement::class, 'fonction');
     }
+    public function activites()
+    {
+        return $this->belongsToMany(DomaineValeurElement::class, 'domaine_intervenants', 'intervenant_id', 'domaine_valeur_element_id');
+    }
 }

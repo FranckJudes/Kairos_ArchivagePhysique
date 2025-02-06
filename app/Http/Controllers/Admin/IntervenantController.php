@@ -22,7 +22,7 @@ class IntervenantController extends Controller
         if ($domaineValeursElements) {
             $domaineValeursElements->domaine_valeurs_elements;
         }
-        $intervenants = Intervenant::all();
+        $intervenants =  Intervenant::with('activites')->get();
         foreach ($intervenants as $intervenant) {
             $intervenant->domaineElement();
         }
@@ -69,9 +69,11 @@ class IntervenantController extends Controller
                 $path = $request->photo_profil->store('images');
             }
 
-            return redirect()->route('intervenants.index')->with('success', 'Intervenant ajouté avec succès.');
+            toastr()->success('Intervenant a ete cree avec success.');
+            return redirect()->back();
         }catch (\Exception $exception){
-            return $exception->getMessage();
+            toastr()->error('Erreur de mise a jour');
+            return redirect()->back();
         }
     }
 
@@ -119,9 +121,11 @@ class IntervenantController extends Controller
                 'sex' => SexeEnum::from($request->sex)
             ]);
 
-            return redirect()->route('intervenants.index')->with('success', 'Intervenant mis à jour.');
+            toastr()->success('Intervenant mis à jour.');
+            return redirect()->back();
         }catch (\Exception $exception){
-            return $exception->getMessage();
+            toastr()->error('Erreur de mise a jour');
+            return redirect()->back();
         }
     }
 
@@ -131,6 +135,7 @@ class IntervenantController extends Controller
     public function destroy(Intervenant $intervenant)
     {
         try {
+//            $intervenant = Intervenant::
             $intervenant->delete();
             return response->json(['success' => true]);
         }catch (\Exception $exception){

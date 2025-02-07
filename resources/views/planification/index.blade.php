@@ -1,125 +1,7 @@
 @extends('Layout.main-layout')
 
 @section('styles')
-    <link rel="stylesheet" href="{{asset('assets/bundles/prism/prism.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/plugins/fullcalendar/fullcalendar.min.css')}}">
-    <style>
-        .calendar-container {
-            background: #fff;
-            width: 450px;
-            border-radius: 10px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-        }
-
-        .calendar-container header {
-            display: flex;
-            align-items: center;
-            padding: 25px 30px 10px;
-            justify-content: space-between;
-        }
-
-        header .calendar-navigation {
-            display: flex;
-        }
-
-        header .calendar-navigation span {
-            height: 38px;
-            width: 38px;
-            margin: 0 1px;
-            cursor: pointer;
-            text-align: center;
-            line-height: 38px;
-            border-radius: 50%;
-            user-select: none;
-            color: #aeabab;
-            font-size: 1.9rem;
-        }
-
-        .calendar-navigation span:last-child {
-            margin-right: -10px;
-        }
-
-        header .calendar-navigation span:hover {
-            background: #f2f2f2;
-        }
-
-        header .calendar-current-date {
-            font-weight: 500;
-            font-size: 1.45rem;
-        }
-
-        .calendar-body {
-            padding: 20px;
-        }
-
-        .calendar-body ul {
-            list-style: none;
-            flex-wrap: wrap;
-            display: flex;
-            text-align: center;
-        }
-
-        .calendar-body .calendar-dates {
-            margin-bottom: 20px;
-        }
-
-        .calendar-body li {
-            width: calc(100% / 7);
-            font-size: 1.07rem;
-            color: #414141;
-        }
-
-        .calendar-body .calendar-weekdays li {
-            cursor: default;
-            font-weight: 500;
-        }
-
-        .calendar-body .calendar-dates li {
-            margin-top: 30px;
-            position: relative;
-            z-index: 1;
-            cursor: pointer;
-        }
-
-        .calendar-dates li.inactive {
-            color: #aaa;
-        }
-
-        .calendar-dates li.active {
-            color: #fff;
-        }
-
-        .calendar-dates li.selected {
-            background-color: #28a745;
-            color: #fff;
-        }
-
-        .calendar-dates li::before {
-            position: absolute;
-            content: "";
-            z-index: -1;
-            top: 50%;
-            left: 50%;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .calendar-dates li.active::before {
-            background: #6332c5;
-        }
-
-        .calendar-dates li:not(.active):hover::before {
-            background: #e4e1e1;
-        }
-
-        .selected-date-display {
-            margin-top: 20px;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('assets/jquery-ui.css') }}" />
 @endsection
 
 @section('content')
@@ -127,116 +9,113 @@
         <ol class="breadcrumb bg-primary text-white-all">
             <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> Home</a></li>
             <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> App</a></li>
-            <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> Planifications</a></li>
+            <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> Gestions des jours Feries</a></li>
         </ol>
     </nav>
-
-    <div class="calendar-container">
-        <header class="calendar-header">
-            <p class="calendar-current-date"></p>
-            <div class="calendar-navigation">
-                <span id="calendar-prev" class="fa fa-chevron-left"></span>
-                <span id="calendar-next" class="fa fa-chevron-right"></span>
+    <div class="row text-center">
+        <div class="col-md-3">  <div class="card">
+                <div class="card-header">
+                    <h4 class="demoHeaders">Form</h4>
+                </div>
+                <div class="card-body d-flex flex-column align-items-center"> <form id="dateForm" action="{{ route('planification.store') }}" method="POST">
+                        @csrf
+                        <div id="datepicker" style="width: 100%;"></div> <input type="hidden" name="date" id="dateInput">
+                        <div id="selectedDate" class="text-lightskyblue fw-bold mt-2 text-center"></div> <button type="submit" class="btn btn-primary w-100 mt-2">Enregistrer</button> </form>
+                </div>
             </div>
-        </header>
-
-        <div class="calendar-body">
-            <ul class="calendar-weekdays">
-                <li>Sun</li>
-                <li>Mon</li>
-                <li>Tue</li>
-                <li>Wed</li>
-                <li>Thu</li>
-                <li>Fri</li>
-                <li>Sat</li>
-            </ul>
-            <ul class="calendar-dates"></ul>
         </div>
-        <div class="selected-date-display">
-            <span id="selected-date">No date selected</span>
+
+        <div class="col-md-9"> <div class="card">
+                <div class="card-header">
+                    <h4>Jour Ferier</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="table-1">
+                            <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($joursFeries as $key => $value)
+                                <tr>
+                                    <td class="text-center">{{ $key + 1 }}</td>
+                                    <td class="text-center">{{ $value->date }}</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-danger" href="#" onclick="show_delete_ferrier_jours({{ $value->id }})">
+                                            <i class="fa fa-trash"></i> Supprimer
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
 @endsection
 
 @section('scripts')
-    <script src="{{asset('assets/bundles/jquery-ui/jquery-ui.min.js')}}"></script>
-    <script src="{{asset('assets/bundles/prism/prism.js')}}"></script>
+    <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
     <script src="{{ asset('assets/bundles/sweetalert/sweetalert.min.js') }}"></script>
-    <script src="{{asset('assets/bundles/fullcalendar.bundle.js')}}"></script>
+
     <script>
-        let date = new Date();
-        let year = date.getFullYear();
-        let month = date.getMonth();
-
-        const day = document.querySelector(".calendar-dates");
-        const currdate = document.querySelector(".calendar-current-date");
-        const prenexIcons = document.querySelectorAll(".calendar-navigation span");
-        const selectedDateDisplay = document.getElementById("selected-date");
-
-        const months = [
-            "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        ];
-
-        // Function to generate the calendar
-        const manipulate = () => {
-            let dayone = new Date(year, month, 1).getDay();
-            let lastdate = new Date(year, month + 1, 0).getDate();
-            let dayend = new Date(year, month, lastdate).getDay();
-            let monthlastdate = new Date(year, month, 0).getDate();
-
-            let lit = "";
-
-            // Loop for last dates of the previous month
-            for (let i = dayone; i > 0; i--) {
-                lit += `<li class="inactive">${monthlastdate - i + 1}</li>`;
+        $("#datepicker").datepicker({
+            inline: true,
+            dateFormat: "yy-mm-dd",
+            onSelect: function (dateText) {
+                $("#selectedDate").text(dateText); // Afficher la date choisie
+                $("#dateInput").val(dateText); // Mettre la date dans l'input caché
             }
+        });
 
-            // Loop for current month's dates
-            for (let i = 1; i <= lastdate; i++) {
-                let isToday = i === date.getDate() && month === new Date().getMonth() && year === new Date().getFullYear() ? "active" : "";
-                lit += `<li class="${isToday}" data-date="${year}-${month+1}-${i}">${i}</li>`;
-            }
+        function show_delete_ferrier_jours(id) {
+            console.log(id)
+            event.preventDefault();
+            swal({
+                title: 'Attention !'
+                , text: 'Voulez-vous vraiment supprimer'
+                , icon: 'warning'
+                , buttons: true
+                , dangerMode: true
+                , })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        var url = "{{ route('planification.destroy', ':id') }}";
+                        url = url.replace(':id', id);
 
-            // Loop for first dates of the next month
-            for (let i = dayend; i < 6; i++) {
-                lit += `<li class="inactive">${i - dayend + 1}</li>`;
-            }
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('DELETE', url);
+                        xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+                        xhr.onload = function() {
+                            if (xhr.status === 200) {
 
-            currdate.innerText = `${months[month]} ${year}`;
-            day.innerHTML = lit;
+                                var response = JSON.parse(xhr.responseText);
+
+                                if (response === 'ok') {
+                                    location.reload();
+                                } else {
+                                    location.reload();
+                                }
+                            }
+                        };
+                        xhr.send();
+                        // document.location.href = url;
+                    } else {
+                        {{--iziToast.error({--}}
+                        {{--    title: '{{ __('message._error') }} !'--}}
+                        {{--    , message: '{{ __('message._canceled') }}'--}}
+                        {{--    , position: 'topRight'--}}
+                        {{--});--}}
+                    }
+                });
         }
 
-        manipulate();
-
-        // Navigation icons click event listener
-        prenexIcons.forEach(icon => {
-            icon.addEventListener("click", () => {
-                month = icon.id === "calendar-prev" ? month - 1 : month + 1;
-
-                if (month < 0 || month > 11) {
-                    date = new Date(year, month, new Date().getDate());
-                    year = date.getFullYear();
-                    month = date.getMonth();
-                } else {
-                    date = new Date();
-                }
-
-                manipulate();
-            });
-        });
-
-        // Add click event to each date
-        day.addEventListener('click', function(event) {
-            if (event.target.tagName.toLowerCase() === 'li' && !event.target.classList.contains('inactive')) {
-                const selectedDate = event.target.getAttribute('data-date');
-                selectedDateDisplay.innerText = `Selected Date: ${selectedDate}`;
-
-                // Remove previous selection and add the new selected class
-                const allDays = document.querySelectorAll('.calendar-dates li');
-                allDays.forEach(day => day.classList.remove('selected'));
-                event.target.classList.add('selected');
-            }
-        });
     </script>
 @endsection

@@ -13,7 +13,6 @@
 
     <!-- Bootstrap Core and vandor -->
     <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/plugins/fullcalendar/fullcalendar.min.css')}}">
 
     <!-- Plugins css -->
     <link rel="stylesheet" href="{{asset('assets/plugins/charts-c3/c3.min.css')}}"/>

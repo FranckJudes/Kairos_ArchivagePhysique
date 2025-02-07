@@ -358,10 +358,8 @@
                                 var response = JSON.parse(xhr.responseText);
                                 console.log(response);
                                 if (response === 'ok') {
-
                                     location.reload();
                                 } else {
-
                                     location.reload();
                                 }
                             }
@@ -369,11 +367,11 @@
                         xhr.send();
                         // document.location.href = url;
                     } else {
-                        iziToast.error({
-                            title: '{{ __('message._error') }} !'
-                            , message: '{{ __('message._canceled') }}'
-                            , position: 'topRight'
-                        });
+                        {{--iziToast.error({--}}
+                        {{--    title: '{{ __('message._error') }} !'--}}
+                        {{--    , message: '{{ __('message._canceled') }}'--}}
+                        {{--    , position: 'topRight'--}}
+                        {{--});--}}
                     }
                 });
         }

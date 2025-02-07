@@ -50,11 +50,22 @@ class ObjectifController extends Controller
 
             ]);
 
-            Objectif::create($request->all());
+            $existingObjectif = Objectif::where('activite', $request->activite)
+                ->where('typologie', $request->typologie)
+                ->exists();
 
+            if ($existingObjectif) {
+                toastr()->error('An Objectif with this Activité and Typologie already exists.');
+                return redirect()->back();
+            }
+
+            Objectif::create($request->all());
+            toastr()->success('Enregistrement avec success');
             return redirect()->back();
         }catch (\Exception $exception){
-            return $exception->getMessage();
+//            return $exception->getMessage();
+            toastr()->error("Erreur d'enregistrement ");
+            return redirect()->back();
         }
     }
 

@@ -267,7 +267,7 @@ class PerformanceController extends Controller
     public function get_objectifi_activities($id){
 
         try {
-            $intervenant  =  Objectif::with('typologies')->where('activite',$id)->get();
+            $intervenant  =  Objectif::with('typologies','periodicites','unite')->where('activite',$id)->get();
             if ($intervenant){
                 return response()->json(['success' => true, 'data' => $intervenant]);
             }
@@ -280,6 +280,20 @@ class PerformanceController extends Controller
     public function get_activitites_domaine_valeurs($id){
         try {
 
+        }catch (\Exception $exception){
+            return response()->json(['success' => false,'message' => $exception->getMessage()]);
+        }
+    }
+
+    public function get_objection_value($id){
+        try {
+            $span = '';
+            $object = Objectif::where('id',$id)->with('activites','typologies','unite','periodicites')->first();
+            if ($object){
+                $span .= "Objectif Cible : " . $object->valeur_cible .' '. optional($object->unite)->libele.'/'. optional($object->periodicites)->libele;
+                return response()->json(['success' => true, 'html' => $span]);
+            }
+            return response()->json(['success' => false]);
         }catch (\Exception $exception){
             return response()->json(['success' => false,'message' => $exception->getMessage()]);
         }

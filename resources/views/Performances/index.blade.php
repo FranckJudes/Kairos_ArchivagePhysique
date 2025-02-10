@@ -1,11 +1,10 @@
 @extends('Layout.main-layout')
 @section('styles')
     <link rel="stylesheet" href="{{asset('assets/bundles/datatables/datatables.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/jquery-ui.css')}}">
     <link rel="stylesheet" href="{{asset('assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/jquery-ui.css')}}">
     <link rel="stylesheet" href="{{asset('assets/bundles/prism/prism.css')}}">
     <link rel="stylesheet" href="{{asset('assets/bundles/select2/dist/css/select2.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 @endsection
 
@@ -25,56 +24,53 @@
                     <h4>Enregistrement des performances :</h4>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label>Intervenant : </label>
-                                <select class="select2-perf form-control"   onchange="change_intervenant(this)" >
-                                    @foreach($intervenants as $item)
-                                        <option value=" {{ $item->id }}"> {{ $item->firstname }} - {{ $item->lastname }}</option>
-                                    @endforeach
-                                </select>
+                    <form method="POST" action="{{ route('store_performance_intervenants') }}">
+                        @csrf
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Intervenant : </label>
+                                    <select class="select2-perf form-control"  name="intervenant"  onchange="change_intervenant(this)" >
+                                        @foreach($intervenant as $item)
+                                            <option value=" {{ $item->id }}"> {{ $item->firstname }} - {{ $item->lastname }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Date :</label>
+                                    <input type="date" class="form-control datepicker" name="date_performance" id="datepicker" />
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>Date :</label>
-                                <input type="text" class="form-control" name="birthday" id="input_date_" />
+                            <div class="col-4">
 
-                            </div>
-                        </div>
-                        <div class="col-4">
+                                <div class="form-group " id="form-activities">
+                                    <label>Activites : </label>
+                                    <select class="form-control select2-activites" name="activites" onchange="get_objectifi_activities(this)" id="activites-container">
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Performance : </label>
+                                    <textarea class="form-control" name="performance_value" id="text_area_"></textarea>
 
-                            <div class="form-group " id="form-activities">
-                                <label>Activites : </label>
-                                <select class="form-control select2-activites" onchange="get_objectifi_activities(this)" id="activites-container">
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Performance : </label>
-                                <textarea class="form-control" id="text_area_"></textarea>
-
-                                <p> <span style="color: red; display: flex; justify-content: flex-end;" id="span_val"></span></p>
-                            </div>
-                            <div class="form-group">
+                                    <p> <span style="color: red; display: flex; justify-content: flex-end;" id="span_val"></span></p>
+                                </div>
+                                <div class="form-group">
                                     <button  style="width: 100%" type="submit" class="btn btn-primary"> Sauvegarder</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-4">
+                            <div class="col-4">
 
-                            <div class="form-group"  id="typologie_documentaire">
-                                <label>Object :</label>
-                                <select id="typologie_" class="form-control select2-object" onchange="activity_change(this)">
+                                <div class="form-group"  id="typologie_documentaire">
+                                    <label>Object :</label>
+                                    <select id="typologie_" class="form-control select2-object" name="object" onchange="activity_change(this)">
 
-                                </select>
+                                    </select>
+                                </div>
+
                             </div>
-{{--                            <div class="form-group">--}}
-{{--                                <label>Objectifs</label>--}}
-{{--                                <select class="form-control select2-objectif" id="objectif_temps"  disabled id="activites-container">--}}
 
-{{--                                </select>--}}
-{{--                            </div>--}}
                         </div>
-
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -84,39 +80,34 @@
                 <div class="card-header" style="display: flex;justify-content: space-between">
                     <h4>Performances</h4>
                     <div class="">
-                       <select class="form-control .select2-day">
-                           <option>journaliere</option>
-                           <option>Semaine</option>
-                           <option>Mensuelle</option>
-                           <option>Trimestre</option>
-                           <option>Semestre</option>
-                           <option>Annuelle</option>
-                       </select>
+                        <select id="periode-select" class="form-control">
+                            <option value="journaliere">Journalière</option>
+                            <option value="Semaine">Semaine</option>
+                            <option value="Mensuelle">Mensuelle</option>
+                            <option value="Trimestre">Trimestre</option>
+                            <option value="Semestre">Semestre</option>
+                            <option value="Annuelle">Annuelle</option>
+                        </select>
                     </div>
                 </div>
 
+
+
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped" id="table-1">
+                        <table class="table table-striped table-hover" id="tableExport_performances">
                             <thead>
-                                <tr>
-                                    <th class="text-center">
-                                        Intervenant
-                                    </th>
-                                    <th>Intitule</th>
-                                    <th>Description</th>
-                                </tr>
+                            <tr>
+                                <th class="text-center">Intervenant</th>
+                                <th class="text-center">Activité</th>
+                                <th class="text-center">Performance</th>
+                                <th class="text-center">Objectif Cible</th>
+                            </tr>
                             </thead>
                             <tbody>
-                            @foreach($intervenants as $item)
-
-                                <tr>
-                                        <td>{{$item->firstname}}</td>
-                                </tr>
-                            @endforeach
                             </tbody>
-
                         </table>
+
                     </div>
                 </div>
             </div>
@@ -126,16 +117,23 @@
 
 @endsection
 @section('scripts')
+    <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
     <script src="{{asset('assets/bundles/select2/dist/js/select2.full.min.js')}}"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="{{asset('assets/bundles/datatables/datatables.min.js')}}"></script>
-    <script src="{{asset('assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js')}}"></script>
+
     <script src="{{asset('assets/bundles/jquery-ui/jquery-ui.min.js')}}"></script>
     <script src="{{asset('assets/js/page/datatables.js')}}"></script>
     <script src="{{asset('assets/bundles/prism/prism.js')}}"></script>
     <script src="{{ asset('assets/bundles/sweetalert/sweetalert.min.js') }}"></script>
 
+    <script src="{{asset('assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('assets/bundles/datatables/datatables.min.js')}}"></script>
+    <script src="{{asset('assets/bundles/datatables/export-tables/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('assets/bundles/datatables/export-tables/buttons.flash.min.js')}}"></script>
+    <script src="{{asset('assets/bundles/datatables/export-tables/jszip.min.js')}}"></script>
+    <script src="{{asset('assets/bundles/datatables/export-tables/pdfmake.min.js')}}"></script>
+    <script src="{{asset('assets/bundles/datatables/export-tables/vfs_fonts.js')}}"></script>
+    <script src="{{asset('assets/bundles/datatables/export-tables/buttons.print.min.js')}}"></script>
+    <script src="{{asset('assets/js/page/datatables.js')}}"></script>
     <script>
         $(function() {
             $('input[name="birthday"]').daterangepicker({
@@ -144,7 +142,12 @@
                 minYear: 1901,
                 maxYear: parseInt(moment().format('YYYY'),10)
             });
+            $( "#datepicker" ).datepicker({
+                inline: true
+            });
+
         });
+
 
         $(document).ready(function() {
             $('.select2-perf').select2({
@@ -169,7 +172,49 @@
                 width: '100%',
                 height:'100px'
             });
+
+
         });
+        $(document).ready(function() {
+            // Définir la période par défaut sur 'journaliere'
+            let defaultPeriode = 'journaliere';
+
+            let table = $('#tableExport_performances').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('performances.all') }}",
+                    data: function(d) {
+                        d.periode = $('#periode-select').val() || defaultPeriode; // Utiliser la période sélectionnée ou 'journaliere' par défaut
+                    }
+                },
+                columns: [
+                    { data: 'intervenant', name: 'intervenant', className: 'text-center' },
+                    { data: 'activite', name: 'activite', className: 'text-center' },
+                    { data: 'total_performance', name: 'total_performance', className: 'text-center' },
+                    { data: 'objectif_cible', name: 'objectif_cible', className: 'text-center' }
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                initComplete: function() {
+                    // Sélectionner 'journaliere' par défaut dans le select
+                    $('#periode-select').val(defaultPeriode).trigger('change');
+                }
+            });
+
+            // Recharger la table lorsqu'on change la période
+            $('#periode-select').change(function() {
+                table.ajax.reload();
+            });
+        });
+
+
+
+
+
+
         function show_delete_intervenant(id) {
             event.preventDefault();
             swal({
@@ -303,7 +348,7 @@
 
                             response.data.forEach(function(data) {
                                 html_typologie += `
-                            <option value="${data.id}">
+                            <option value="${data.typologies.id}">
                                 ${data.typologies.libele}  </option>
                         `;
 
@@ -339,11 +384,6 @@
                         $("#span_val").html('');
                     }
                 });
-
-
-
-
-
 
         }
     </script>

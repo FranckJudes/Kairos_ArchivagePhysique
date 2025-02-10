@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('performances', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('intervenant')->constrained('intervenants')->onDelete('cascade'); // ✅ Clé étrangère correcte
+            $table->foreignId('objects')->constrained('domaine_valeur_elements')->onDelete('cascade'); // ✅ Clé étrangère correcte
+            $table->foreignId('activites')->constrained('domaine_valeur_elements')->onDelete('cascade'); // ✅ Clé étrangère correcte
+            $table->date('date_performance');
+            $table->string('performance_value');
             $table->timestamps();
         });
 

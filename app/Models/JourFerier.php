@@ -9,5 +9,11 @@ class JourFerier extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['date'];
+    protected $fillable = ['date', 'nom', 'recurrent'];
+
+    public static function isHoliday($date)
+    {
+        return self::whereDate('date', $date)->exists();
+    }
+
 }

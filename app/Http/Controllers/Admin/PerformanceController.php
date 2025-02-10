@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\DomaineValeurElement;
 use App\Models\Intervenant;
 use App\Models\Objectif;
+use App\Models\Performance;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Yajra\DataTables\DataTables;
+use App\Models\JourFerier;
 class PerformanceController extends Controller
 {
     /**
@@ -16,8 +19,9 @@ class PerformanceController extends Controller
      */
     public function index()
     {
-        $intervenants =  Intervenant::with('activites')->get();
-        return view('Performances.index',compact('intervenants'));
+        $intervenants = Intervenant::with('activites')->whereHas('performances')->get();
+        $intervenant = Intervenant::with('activites')->get();
+        return view('Performances.index',compact('intervenants','intervenant'));
     }
 
     /**
@@ -298,4 +302,120 @@ class PerformanceController extends Controller
             return response()->json(['success' => false,'message' => $exception->getMessage()]);
         }
     }
+
+    public function store_performance_intervenants(Request $request){
+
+        try {
+            $request->validate([
+                'intervenant' => 'required',
+                'date_performance' => 'required',
+                'activites' => 'required',
+                'object' => 'required',
+                'performance_value' => 'required',
+            ]);
+            $performance = new Performance();
+            $performance->intervenant = $request->intervenant;
+            $performance->date_performance = $request->date_performance;
+            $performance->activites = $request->activites;
+            $performance->objects = $request->object;
+            $performance->performance_value = $request->performance_value;
+            $performance->save();
+
+            toastr()->success('Performances cree avec succès.');
+            return redirect()->back();
+        }catch (\Exception $exception){
+            toastr()->error($exception->getMessage());
+            return redirect()->back();
+        }
+    }
+
+
+
+
+    public function get_peformance_user_folders(Request $request)
+    {
+        try {
+            $dateDebut = Carbon::now();
+            $dateFin = Carbon::now();
+            $periode =  $request->input('periode','journaliere');
+
+            switch ($periode) {
+                case 'journaliere':
+                    $dateDebut = $dateFin = Carbon::today()->toDateString();;
+                    break;
+                case 'Semaine':
+                    $dateDebut = Carbon::now()->startOfWeek();
+                    $dateFin = Carbon::now()->endOfWeek();
+                    break;
+                case 'Mensuelle':
+                    $dateDebut = Carbon::now()->startOfMonth();
+                    $dateFin = Carbon::now()->endOfMonth();
+                    break;
+                case 'Trimestre':
+                    $dateDebut = Carbon::now()->subMonths(3)->startOfMonth();
+                    $dateFin = Carbon::now()->endOfMonth();
+                    break;
+                case 'Semestre':
+                    $dateDebut = Carbon::now()->subMonths(6)->startOfMonth();
+                    $dateFin = Carbon::now()->endOfMonth();
+                    break;
+                case 'Annuelle':
+                    $dateDebut = Carbon::now()->subMonths(12)->startOfMonth();
+                    $dateFin = Carbon::now()->addMonths(12)->endOfMonth();
+                    break;
+                default:
+                    return response()->json(['error' => 'Période invalide'], 400);
+            }
+
+            // Récupérer et totaliser les performances par intervenant et activité
+            $performances = Performance::whereBetween('date_performance', [$dateDebut, $dateFin])
+                ->selectRaw('intervenant, activites, SUM(performance_value) as total_performance')
+                ->groupBy('intervenant', 'activites')
+                ->get();
+
+            // Structurer les résultats pour DataTables
+            $resultats = [];
+
+            foreach ($performances as $performance) {
+                $intervenantId = $performance->intervenant;
+                $activiteId = $performance->activites;
+
+                if (!isset($resultats[$intervenantId])) {
+                    $resultats[$intervenantId] = [
+                        'intervenant' => $performance->intervenantInfo->firstname . ' ' . $performance->intervenantInfo->lastname,
+                        'email' => $performance->intervenantInfo->email,
+                        'performances' => []
+                    ];
+                }
+
+                $resultats[$intervenantId]['performances'][] = [
+                    'activite' => $performance->activiteObjectif->libele ?? 'N/A',
+                    'total_performance' => $performance->total_performance,
+                    'objectif_cible' => $performance->activiteObjectif->objectif->valeur_cible ?? 'N/A'
+                ];
+            }
+
+            // Transformer en liste plate pour DataTables
+            $formattedData = [];
+            foreach ($resultats as $intervenant) {
+                foreach ($intervenant['performances'] as $performance) {
+                    $formattedData[] = [
+                        'intervenant' => $intervenant['intervenant'],
+                        'activite' => $performance['activite'],
+                        'total_performance' => $performance['total_performance'],
+                        'objectif_cible' => $performance['objectif_cible']
+                    ];
+                }
+            }
+
+            return DataTables::of($formattedData)->make(true);
+        } catch (\Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
+
+
+
+
 }

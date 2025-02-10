@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\JourFerier;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Jenssegers\Date\Date;
 
 class PlanificationController extends Controller
 {
@@ -31,16 +33,30 @@ class PlanificationController extends Controller
     public function store(Request $request)
     {
         try {
+            // Convertir la date au format attendu
+            $request->merge(['date' => Carbon::createFromFormat('m-d-Y', $request->date)->format('Y-m-d')]);
+
+            // Validation des données
             $request->validate([
-                'date' => 'required|date|unique:jour_feriers,date'
+                'date' => 'required|date|unique:jour_feriers,date',
+                'nom'  => 'required|string|unique:jour_feriers,nom'
             ]);
-            JourFerier::create($request->all());
-            toastr()->success('Enregistrement avec success');
+
+            // Insertion des données
+            JourFerier::create([
+                'date' => $request->date,
+                'nom'  => $request->nom
+            ]);
+
+            toastr()->success('Enregistrement avec succès');
             return redirect()->back();
-        }catch (\Exception $exception){
-            toastr()->error($exception->getMessage());
+
+        } catch (\Exception $exception) {
+            toastr()->error("Erreur : " . $exception->getMessage());
             return redirect()->back()->withInput();
         }
+
+
     }
 
     /**
@@ -66,7 +82,8 @@ class PlanificationController extends Controller
     {
         try {
             $request->validate([
-                'date' => 'required|date|unique:jour_feriers,date,' . $id
+                'date' => 'required|date|unique:jour_feriers,',
+                'nom' => 'required|string|unique:jour_feriers'
             ]);
             $jourFerie = JourFerier::findOrFail($id);
             if($jourFerie){
@@ -86,7 +103,6 @@ class PlanificationController extends Controller
     public function destroy(string $id)
     {
         try {
-
             $jourFerie = JourFerier::findOrFail($id);
             if ($jourFerie) {
                 $jourFerie->delete();

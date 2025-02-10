@@ -10,6 +10,7 @@
         "ext-http": "*",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
+        "yajra/laravel-datatables": "^11.0",
         "yoeunes/toastr": "^3.1"
     },
     "require-dev": {
@@ -31,7 +32,10 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }
+        },
+        "files": [
+            "app/Helpers/helpers.php"
+        ]
     },
     "scripts": {
         "post-autoload-dump": [

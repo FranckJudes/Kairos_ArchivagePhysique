@@ -2,6 +2,47 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('assets/jquery-ui.css') }}" />
+    <style>
+        /* Style pour fixer l'en-tête du tableau */
+        #table-1 {
+            border-collapse: collapse;
+            width: 100%;
+            position: relative;
+        }
+
+        #table-1 thead tr {
+            position: sticky;
+            top: 0;
+            background: white; /* Assure la visibilité */
+            z-index: 10;
+        }
+
+        /* Fixer la première colonne */
+        #table-1 tbody tr td:first-child,
+        #table-1 thead tr th:first-child {
+            position: sticky;
+            left: 0;
+            background: white; /* Assure la visibilité */
+            z-index: 5;
+        }
+
+        /* Ajout d'un effet d'ombre pour une meilleure visibilité */
+        #table-1 thead tr th {
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #table-1 tbody tr td:first-child {
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Ajout d'un overflow si le tableau est grand */
+        .table-container {
+            max-height: 400px; /* Ajuste selon le besoin */
+            overflow: auto;
+            position: relative;
+        }
+
+    </style>
 @endsection
 
 @section('content')
@@ -20,7 +61,11 @@
                 <div class="card-body d-flex flex-column align-items-center"> <form id="dateForm" action="{{ route('planification.store') }}" method="POST">
                         @csrf
                         <div id="datepicker" style="width: 100%;"></div> <input type="hidden" name="date" id="dateInput">
-                        <div id="selectedDate" class="text-lightskyblue fw-bold mt-2 text-center"></div> <button type="submit" class="btn btn-primary w-100 mt-2">Enregistrer</button> </form>
+                        <div class="form-group">
+                                <label></label>
+                            <input type="text" class="form-control" name="nom" placeholder="Nom du jour ferie">
+                        </div>
+                        <div id="selectedDate"  style="color: lightskyblue; font-weight: bold;" class="text-lightskyblue mt-2 text-center"></div> <button type="submit" class="btn btn-primary w-100 mt-2">Enregistrer</button> </form>
                 </div>
             </div>
         </div>
@@ -31,28 +76,33 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped" id="table-1">
-                            <thead>
-                            <tr>
-                                <th class="text-center">#</th>
-                                <th class="text-center">Date</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($joursFeries as $key => $value)
+                        <div class="table-container">
+                            <table class="table table-striped" id="table-1">
+                                <thead>
                                 <tr>
-                                    <td class="text-center">{{ $key + 1 }}</td>
-                                    <td class="text-center">{{ $value->date }}</td>
-                                    <td class="text-center">
-                                        <a class="btn btn-danger" href="#" onclick="show_delete_ferrier_jours({{ $value->id }})">
-                                            <i class="fa fa-trash"></i> Supprimer
-                                        </a>
-                                    </td>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">Libelle</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                @foreach($joursFeries as $key => $value)
+                                    <tr>
+                                        <td class="text-center">{{ $key + 1 }}</td>
+                                        <td class="text-center">{{ $value->nom }}</td>
+                                        <td class="text-center">{{ $value->date }}</td>
+                                        <td class="text-center">
+                                            <a class="btn btn-danger" href="#" onclick="show_delete_ferrier_jours({{ $value->id }})">
+                                                <i class="fa fa-trash"></i> Supprimer
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -65,10 +115,11 @@
     <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
     <script src="{{ asset('assets/bundles/sweetalert/sweetalert.min.js') }}"></script>
 
+
     <script>
         $("#datepicker").datepicker({
             inline: true,
-            dateFormat: "yy-mm-dd",
+            dateFormat: "mm-dd-yy",
             onSelect: function (dateText) {
                 $("#selectedDate").text(dateText); // Afficher la date choisie
                 $("#dateInput").val(dateText); // Mettre la date dans l'input caché
@@ -116,6 +167,8 @@
                     }
                 });
         }
+
+
 
     </script>
 @endsection

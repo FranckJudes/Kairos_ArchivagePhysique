@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('date_of_birth')->nullable();
             $table->string('lieu_naissance')->nullable();
             $table->string('profession')->nullable();
-            $table->foreignUuid('fonction')->constrained('domaine_valeur_elements')->onDelete('cascade'); // ✅ Clé étrangère correcte
+            $table->foreignId('fonction')->constrained('domaine_valeur_elements')->onDelete('cascade'); // ✅ Clé étrangère correcte
             $table->string('date_integration')->nullable();
             $table->string('info_connexes')->nullable();
             $table->string('email')->nullable();

@@ -6,6 +6,7 @@ use App\Enums\SexeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Intervenant extends Model
@@ -40,6 +41,12 @@ class Intervenant extends Model
     {
         return $this->belongsTo(DomaineValeurElement::class, 'fonction');
     }
+
+    public function performances(): HasMany
+    {
+        return $this->hasMany(Performance::class, 'intervenant', 'id');
+    }
+
     public function activites()
     {
         return $this->belongsToMany(DomaineValeurElement::class, 'domaine_intervenants', 'intervenant_id', 'domaine_valeur_element_id');

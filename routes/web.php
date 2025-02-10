@@ -21,3 +21,5 @@ Route::get('get_objectifi_activities/{id}', [App\Http\Controllers\Admin\Performa
 Route::get('get_activitites_domaine_valeurs/{id}', [App\Http\Controllers\Admin\PerformanceController::class,'get_activitites_domaine_valeurs'])->name('get_activitites_domaine_valeurs');
 Route::get('get_objection_value/{id}', [App\Http\Controllers\Admin\PerformanceController::class,'get_objection_value'])->name('get_objection_value');
 Route::post('intervenant_activites_detach', [App\Http\Controllers\Admin\PerformanceController::class,'intervenant_activites_detach'])->name('intervenant_activites_detach');
+Route::post('store_performance_intervenants', [App\Http\Controllers\Admin\PerformanceController::class,'store_performance_intervenants'])->name('store_performance_intervenants');
+Route::get('/performances_all', [App\Http\Controllers\Admin\PerformanceController::class, 'get_peformance_user_folders'])->name('performances.all');

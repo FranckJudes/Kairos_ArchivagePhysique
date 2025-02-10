@@ -137,7 +137,7 @@ class IntervenantController extends Controller
         try {
 //            $intervenant = Intervenant::
             $intervenant->delete();
-            return response->json(['success' => true]);
+            return response()->json(['success' => true]);
         }catch (\Exception $exception){
             return $exception->getMessage();
         }

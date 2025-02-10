@@ -50,4 +50,7 @@ class Objectif extends Model
     {
         return $this->belongsTo(DomaineValeurElement::class, 'periodicite');
     }
+
+
+
 }

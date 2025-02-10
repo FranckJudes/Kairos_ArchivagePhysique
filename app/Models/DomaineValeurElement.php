@@ -16,4 +16,9 @@ class   DomaineValeurElement extends Model
         return $this->belongsTo(DomaineValeur::class, 'id_domaine');
     }
 
+    public function objectif()
+    {
+        return $this->hasOne(Objectif::class, 'activite', 'id');
+    }
+
 }

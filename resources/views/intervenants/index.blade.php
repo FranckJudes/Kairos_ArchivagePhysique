@@ -5,6 +5,16 @@
     <link rel="stylesheet" href="{{asset('assets/bundles/prism/prism.css')}}">
     <link rel="stylesheet" href="{{asset('assets/bundles/select2/dist/css/select2.min.css')}}">
 
+    <style>
+        .btn-icon.icon-right {
+            padding-left: 10px; /* Ajustez l'espacement entre le texte et l'icône */
+            padding-right: 10px;
+        }
+
+        .btn-icon.icon-right span {
+            margin-right: 10px; /* Espacement entre le texte et l'icône */
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -81,7 +91,7 @@
 
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-striped" id="table-1">
+                                        <table class="table table-striped" id="table-2">
                                             <thead>
                                             <tr>
                                                 <th class="text-center">
@@ -90,7 +100,7 @@
                                                 <th>Matricule</th>
                                                 <th>Nom</th>
                                                 <th>Prenom</th>
-                                                <th colspan="2" >Atc</th>
+                                                <th >Activites</th>
                                                 <th></th>
 
                                             </tr>
@@ -102,24 +112,20 @@
                                                     <td>{{$value->matricule}}</td>
                                                     <td>{{$value->lastname}}</td>
                                                     <td>{{$value->firstname}}</td>
-                                                    <td>{{$value->sex}}</td>
                                                     <td>
-{{--                                                        @foreach($value->activites as $item)--}}
-{{--                                                            <span class="badge badge-info">{{  $item->libele}}</span>--}}
-{{--                                                        @endforeach--}}
+
                                                         @foreach($value->activites as $item)
                                                             <span class="badge badge-info position-relative mr-2 mb-2">
-                                                                {{ $item->libele }}
-                                                                <form action="{{ route('intervenant_activites_detach') }}" method="POST" class="d-inline">
-                                                                    @csrf
-                                                                    <input type="hidden" name="intervenants[]" value="{{ $value->id }}">
-                                                                    <input type="hidden" name="activites[]" value="{{ $item->id }}">
-                                                                    <button type="submit" class="btn btn-link text-danger p-0 ml-2"
-                                                                            style="position: absolute; top: -5px; right: -5px;"
-                                                                            onclick="return confirm('Voulez-vous vraiment retirer cette activité ?')">
-                                                                        <i class="fas fa-times-circle"></i>
-                                                                    </button>
-                                                                </form>
+                                                            <form class="d-inline">
+                                                                @csrf
+                                                                <input type="hidden" name="intervenants[]" value="{{ $value->id }}">
+                                                                <input type="hidden" name="activites[]" value="{{ $item->id }}">
+                                                                <a href="#" class="btn btn-icon icon-right btn-danger d-flex align-items-center justify-content-between">
+                                                                    <span>{{ $item->libele }}</span>
+                                                                    <i class="fa fa-times-circle"></i>
+                                                                </a>
+                                                            </form>
+
                                                             </span>
                                                         @endforeach
                                                     </td>
@@ -172,9 +178,8 @@
                                                                         Options
                                                                     </button>
                                                                     <div class="dropdown-menu">
-                                                                        <a class="dropdown-item has-icon" ><i class="fa fa-eye"></i> Voir details</a>
-                                                                        <a class="dropdown-item has-icon" href="{{route('intervenants.show',$value)}}" href="#"><i class="fa fa-edit"></i> Edit</a>
-                                                                        <a class="dropdown-item has-icon"  onclick="show_delete_intervenant({{json_encode($value)}})" href=""><i class="fa fa-trash"></i> Supprimer</a>
+                                                                        <a class="dropdown-item has-icon" onclick="" href="#"><i class="fa fa-edit"></i> Edit</a>
+                                                                        <a class="dropdown-item has-icon"  onclick="show_delete_intervenant({{$value->id}})" href=""><i class="fa fa-trash"></i> Supprimer</a>
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -187,13 +192,13 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-4">
                                     <div class="card">
                                         <div class="card-header">
                                             <h4>Section d'ajout</h4>
                                         </div>
                                         <div class="card-body">
+
 
                                             <form method="POST" action="{{route('intervenants.store')}}">
                                                 @csrf
@@ -289,9 +294,8 @@
     <script src="{{asset('assets/bundles/select2/dist/js/select2.full.min.js')}}"></script>
     <script src="{{asset('assets/bundles/datatables/datatables.min.js')}}"></script>
     <script src="{{asset('assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('assets/bundles/jquery-ui/jquery-ui.min.js')}}"></script>
     <script src="{{asset('assets/js/page/datatables.js')}}"></script>
-{{--    <script src="{{asset('assets/js/page/forms-advanced-forms.js')}}"></script>--}}
+    <script src="{{asset('assets/bundles/jquery-ui/jquery-ui.min.js')}}"></script>
 
     <script src="{{asset('assets/bundles/prism/prism.js')}}"></script>
     <script src="{{ asset('assets/bundles/sweetalert/sweetalert.min.js') }}"></script>
@@ -319,23 +323,10 @@
             });
 
 
-            // // Gérer l'ouverture du modal
-            // $('#addActivitesModal').on('show.bs.modal', function (event) {
-            //     var button = $(event.relatedTarget);
-            //     var intervenantId = button.data('intervenant-id');
-            //     var intervenantName = button.data('intervenant-name');
-            //
-            //     var modal = $(this);
-            //     modal.find('#selectedIntervenantId').val(intervenantId);
-            //     modal.find('#selectedIntervenantName').text(intervenantName);
-            //
-            //     // Réinitialiser la sélection
-            //     modal.find('select').val(null).trigger('change');
-            // });
+
         });
         //
         function show_delete_intervenant(id) {
-            console.log(id)
             event.preventDefault();
             swal({
                 title: 'Attention !'
@@ -358,23 +349,89 @@
                                 var response = JSON.parse(xhr.responseText);
                                 console.log(response);
                                 if (response === 'ok') {
+                                    iziToast.success({
+                                        title: 'Succès !',
+                                        message: "Operation Reussi !",
+                                        position: 'topRight'
+                                    });
                                     location.reload();
                                 } else {
-                                    location.reload();
+                                    iziToast.error({
+                                        title: 'Erreur !',
+                                        message: 'Une erreur est survenue',
+                                        position: 'topRight'
+                                    });
                                 }
                             }
                         };
                         xhr.send();
                         // document.location.href = url;
                     } else {
-                        {{--iziToast.error({--}}
-                        {{--    title: '{{ __('message._error') }} !'--}}
-                        {{--    , message: '{{ __('message._canceled') }}'--}}
-                        {{--    , position: 'topRight'--}}
-                        {{--});--}}
+                        iziToast.error({
+                            title: 'Erreur !',
+                            message: 'Une erreur est survenue',
+                            position: 'topRight'
+                        });
                     }
                 });
         }
+
+        $(document).ready(function () {
+            $(document).on('click', '.btn-danger', function (event) {
+                event.preventDefault();
+
+                const badge = $(this).closest('.badge');
+                const intervenantId = badge.find('input[name="intervenants[]"]').val();
+                const activiteId = badge.find('input[name="activites[]"]').val();
+                const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                swal({
+                    title: 'Attention !',
+                    text: 'Voulez-vous vraiment supprimer cette activité ?',
+                    icon: 'warning',
+                    buttons: true,
+                    dangerMode: true
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: '/intervenant_activites_detach',
+                            type: 'POST',
+                            data: {
+                                '_token': csrfToken,
+                                'intervenants': [intervenantId],  // Assurez-vous que c'est un tableau
+                                'activites': [activiteId]         // Assurez-vous que c'est un tableau
+                            },
+                            dataType: 'json',
+                            success: function (response) {
+                                if (response.success) {
+                                    iziToast.success({
+                                        title: 'Succès !',
+                                        message: response.message,
+                                        position: 'topRight'
+                                    });
+                                    badge.remove();
+                                } else {
+                                    iziToast.error({
+                                        title: 'Erreur !',
+                                        message: response.message,
+                                        position: 'topRight'
+                                    });
+                                }
+                            },
+                            error: function (xhr) {
+                                iziToast.error({
+                                    title: 'Erreur !',
+                                    message: xhr.responseJSON ? xhr.responseJSON.message : 'Une erreur est survenue.',
+                                    position: 'topRight'
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+
 
     </script>
 @endsection

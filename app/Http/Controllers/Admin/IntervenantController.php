@@ -132,14 +132,18 @@ class IntervenantController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Intervenant $intervenant)
+    public function destroy(string $id)
     {
         try {
-//            $intervenant = Intervenant::
-            $intervenant->delete();
-            return response()->json(['success' => true]);
+            $intervenant = Intervenant::find($id);
+            if ($intervenant) {
+                $intervenant->delete();
+                return response()->json(['success' => true]);
+            }
+            return response()->json(['success' => false]);
+
         }catch (\Exception $exception){
-            return $exception->getMessage();
+            return  response()->json(['success' => false,'message' => $exception->getMessage()]);
         }
     }
 }

@@ -136,8 +136,8 @@
 @section('scripts')
     <script src="{{asset('assets/bundles/datatables/datatables.min.js')}}"></script>
     <script src="{{asset('assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('assets/bundles/jquery-ui/jquery-ui.min.js')}}"></script>
     <script src="{{asset('assets/js/page/datatables.js')}}"></script>
+    <script src="{{asset('assets/bundles/jquery-ui/jquery-ui.min.js')}}"></script>
     <script src="{{asset('assets/bundles/prism/prism.js')}}"></script>
     <script src="{{ asset('assets/bundles/sweetalert/sweetalert.min.js') }}"></script>
     <script>
@@ -166,9 +166,18 @@
                                 var response = JSON.parse(xhr.responseText);
                                 console.log(response);
                                 if (response === 'ok') {
+                                    iziToast.success({
+                                        title: 'Succès !',
+                                        message: "Operation Reussi !",
+                                        position: 'topRight'
+                                    });
                                     location.reload();
                                 } else {
-                                    location.reload();
+                                    iziToast.error({
+                                        title: 'Erreur !',
+                                        message: 'Une erreur est survenue',
+                                        position: 'topRight'
+                                    });
                                 }
                             }
                         };
@@ -176,9 +185,9 @@
                         // document.location.href = url;
                     } else {
                         iziToast.error({
-                            title: '{{ __('message._error') }} !'
-                            , message: '{{ __('message._canceled') }}'
-                            , position: 'topRight'
+                            title: 'Erreur !',
+                            message: 'Une erreur est survenue',
+                            position: 'topRight'
                         });
                     }
                 });

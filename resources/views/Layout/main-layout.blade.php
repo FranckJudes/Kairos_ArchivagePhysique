@@ -6,8 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="{{ asset('assets/bundles/izitoast/css/iziToast.min.css') }}">
 
     <title>:: Soccer :: Project Dashboard</title>
 
@@ -300,10 +301,10 @@
         <nav id="left-sidebar-nav" class="sidebar-nav">
             <ul class="metismenu">
                 <li class="g_heading">Project</li>
-                <li class="active"><a href="index-2.html"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
+                <li class="active"><a href="{{route('dashboard.index')}}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
                 <li><a href="{{route('performances.index')}}"><i class="fa fa-list-ol"></i><span>Performances</span></a></li>
-                <li><a href="project-taskboard.html"><i class="fa fa-calendar-check-o"></i><span>Presences</span></a></li>
-                <li><a href="project-todo.html"><i class="fa fa-check-square-o"></i><span>Todo List</span></a></li>
+{{--                <li><a href="project-taskboard.html"><i class="fa fa-calendar-check-o"></i><span>Presences</span></a></li>--}}
+{{--                <li><a href="project-todo.html"><i class="fa fa-check-square-o"></i><span>Todo List</span></a></li>--}}
                 <li class="g_heading">App</li>
 {{--                <li><a href="app-calendar.html"><i class="fa fa-calendar"></i><span>Calendar</span></a></li>--}}
 {{--                <li><a href="app-chat.html"><i class="fa fa-comments"></i><span></span></a></li>--}}
@@ -473,10 +474,7 @@
             <div class="container-fluid">
                 <div class="row clearfix">
                     <div class="col-lg-12">
-{{--                        <div class="mb-4">--}}
-{{--                            <h4>Welcome Peter Richards!</h4>--}}
-{{--                            <small>Measure How Fast You’re Growing Monthly Recurring Revenue. <a href="#">Learn More</a></small>--}}
-{{--                        </div>--}}
+
 
 
                         @yield('content')
@@ -512,6 +510,7 @@
     <script src="{{asset('assets/bundles/counterup.bundle.js')}}"></script>
     <script src="{{asset('assets/bundles/knobjs.bundle.js')}}"></script>
     <script src="{{asset('assets/bundles/c3.bundle.js')}}"></script>
+    <script src="{{ asset('assets/bundles/izitoast/js/iziToast.min.js') }}"></script>
 
     <script src="{{asset('assets/js/core.js')}}"></script>
     <script src="{{asset('assets/js/page/project-index.js')}}"></script>

@@ -31,18 +31,23 @@ class DomaineValeurController extends Controller
      */
     public function store(Request $request)
     {
+
         try {
             $request->validate([
                 'libele' => 'required|unique|string|max:255',
-                'description' => 'nullable|string',
+                'description' => 'nullable',
+                'type' => 'nullable',
             ]);
 
-            DomaineValeur::create($request->all());
+            DomaineValeur::create($request->all(),
+                'type' => '1'
+            );
 
-            return redirect()->route('domaine.index')
-                ->with('success', 'Domaine de valeur créé avec succès.');
+            toastr()->success('Domaine de valeur créé avec succès.');
+            return redirect()->back();
         }catch (\Exception $exception){
-            dd($exception);
+            toastr()->error($exception->getMessage());
+            return  redirect()->back();
         }
     }
 

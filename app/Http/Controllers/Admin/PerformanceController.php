@@ -186,20 +186,18 @@ class PerformanceController extends Controller
     public function intervenant_activites_detach(Request $request)
     {
         try {
-            // Valider les données de la requête
+            // Vérifier la présence des données
             if (!$request->has('intervenants') || !$request->has('activites')) {
-                toastr()->error('Données incomplètes');
-                return redirect()->back();
+                return response()->json(['success' => false, 'message' => 'Données incomplètes'], 400);
             }
 
             $intervenants = $request->intervenants;
             $activites = $request->activites;
 
-            // Valider que toutes les activités existent
+            // Vérifier que toutes les activités existent
             $validActivites = DomaineValeurElement::whereIn('id', $activites)->pluck('id')->toArray();
             if (count($validActivites) !== count($activites)) {
-                toastr()->error('Certaines activités sélectionnées sont invalides');
-                return redirect()->back();
+                return response()->json(['success' => false, 'message' => 'Certaines activités sélectionnées sont invalides'], 400);
             }
 
             $nonAssignes = [];
@@ -211,8 +209,7 @@ class PerformanceController extends Controller
                 $intervenant = Intervenant::find($intervenantId);
                 if (!$intervenant) {
                     DB::rollBack();
-                    toastr()->error("L'intervenant #$intervenantId n'existe pas");
-                    return redirect()->back();
+                    return response()->json(['success' => false, 'message' => "L'intervenant #$intervenantId n'existe pas"], 404);
                 }
 
                 // Vérifier les activités actuellement assignées
@@ -226,8 +223,7 @@ class PerformanceController extends Controller
                         $intervenant->activites()->detach($activites);
                     } catch (\Exception $e) {
                         DB::rollBack();
-                        toastr()->error("Erreur lors de la dissociation des activités");
-                        return redirect()->back();
+                        return response()->json(['success' => false, 'message' => 'Erreur lors de la dissociation des activités'], 500);
                     }
                 } else {
                     $nonAssignes[] = $intervenant->id;
@@ -237,17 +233,18 @@ class PerformanceController extends Controller
             DB::commit();
 
             if (!empty($nonAssignes)) {
-                toastr()->warning('Certains intervenants n\'avaient pas ces activités assignées.');
-                return redirect()->back();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Certaines activités n\'étaient pas assignées à ces intervenants.',
+                    'non_assignes' => $nonAssignes
+                ], 200);
             }
 
-            toastr()->success('Activités dissociées des intervenants avec succès.');
-            return redirect()->back();
+            return response()->json(['success' => true, 'message' => 'Activités dissociées avec succès.'], 200);
 
         } catch (\Exception $exception) {
             DB::rollBack();
-            toastr()->error("Une erreur est survenue: " . $exception->getMessage());
-            return redirect()->back();
+            return response()->json(['success' => false, 'message' => "Une erreur est survenue: " . $exception->getMessage()], 500);
         }
     }
 

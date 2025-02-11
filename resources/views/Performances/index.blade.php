@@ -31,6 +31,7 @@
                                 <div class="form-group">
                                     <label>Intervenant : </label>
                                     <select class="select2-perf form-control"  name="intervenant"  onchange="change_intervenant(this)" >
+                                        <option value="">Selectionner :</option>
                                         @foreach($intervenant as $item)
                                             <option value=" {{ $item->id }}"> {{ $item->firstname }} - {{ $item->lastname }}</option>
                                         @endforeach
@@ -238,9 +239,18 @@
                                 var response = JSON.parse(xhr.responseText);
                                 console.log(response);
                                 if (response === 'ok') {
+                                    iziToast.success({
+                                        title: 'Succès !',
+                                        message: "Operation Reussi !",
+                                        position: 'topRight'
+                                    });
                                     location.reload();
                                 } else {
-                                    location.reload();
+                                    iziToast.error({
+                                        title: 'Erreur !',
+                                        message: 'Une erreur est survenue',
+                                        position: 'topRight'
+                                    });
                                 }
                             }
                         };
@@ -256,8 +266,7 @@
                 });
         }
 
-    </script>
-    <script>
+
         function editObject(data1) {
             const data = JSON.parse(data1);
 
@@ -299,23 +308,6 @@
                 type: 'GET',
                 success: function(response) {
                     var html = '';
-
-                    // if (response.data && Array.isArray(response.data)) {
-                    //     response.data.forEach(function(data, index) {
-                    //         html += `
-                    //             <div class="custom-control custom-radio">
-                    //                 <input type="radio"
-                    //                        class="custom-control-input"
-                    //                        id="customRadio${index}"
-                    //                        name="activites[]"
-                    //                        value="${data.id}" onchange="get_objectifi_activities(this)">
-                    //                 <label class="custom-control-label"
-                    //                        for="customRadio${index}">
-                    //                     ${data.libele}
-                    //                 </label>
-                    //             </div>`;
-                    //     });
-                    // }
                     if (response.data && Array.isArray(response.data)) {
                         response.data.forEach(function(data, index) {
                             html += `
@@ -325,11 +317,13 @@
                     }
                     $('#activites-container').html(html);
                     $('#form-activities').css('display','block');
-
-
                 },
                 error: function(xhr, status, error) {
-                    console.error(error);
+                    iziToast.error({
+                        title: 'Erreur !',
+                        message: 'Une erreur est survenue',
+                        position: 'topRight'
+                    });
                 }
             });
         }

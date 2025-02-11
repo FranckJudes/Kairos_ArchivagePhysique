@@ -3,10 +3,11 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('Layout.main-layout');
+
 });
 
 
+Route::resource('dashboard', 'App\Http\Controllers\Admin\DashbaordController');
 Route::resource('domaine', 'App\Http\Controllers\Admin\DomaineValeurController');
 Route::resource('domaineElement', 'App\Http\Controllers\Admin\DomaineValeurElementController');
 Route::resource('intervenants', 'App\Http\Controllers\Admin\IntervenantController');
@@ -23,3 +24,4 @@ Route::get('get_objection_value/{id}', [App\Http\Controllers\Admin\PerformanceCo
 Route::post('intervenant_activites_detach', [App\Http\Controllers\Admin\PerformanceController::class,'intervenant_activites_detach'])->name('intervenant_activites_detach');
 Route::post('store_performance_intervenants', [App\Http\Controllers\Admin\PerformanceController::class,'store_performance_intervenants'])->name('store_performance_intervenants');
 Route::get('/performances_all', [App\Http\Controllers\Admin\PerformanceController::class, 'get_peformance_user_folders'])->name('performances.all');
+Route::get('/get_peformance_user_chart', [App\Http\Controllers\Admin\DashbaordController::class, 'get_peformance_user_chart'])->name('get_peformance_user_chart');

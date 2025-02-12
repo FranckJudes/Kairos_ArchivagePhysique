@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="mb-4">
-        <h4>Welcome Peter Richards!</h4>
+        <h4>Welcome {{Auth::user()->firstname . ' '. Auth::user()->lastname }} !</h4>
         <small>Measure How Fast You’re Growing Monthly Recurring Revenue. <a href="#">Learn More</a></small>
     </div>
     <div class="row ">

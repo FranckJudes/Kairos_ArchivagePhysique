@@ -18,7 +18,7 @@
         <div class="col-8">
             <div class="card">
                 <div class="card-header">
-                    <h4>Liste des Intervenants</h4>
+                    <h4>Liste des valeurs</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -96,8 +96,8 @@
 @section('scripts')
     <script src="{{asset('assets/bundles/datatables/datatables.min.js')}}"></script>
     <script src="{{asset('assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('assets/bundles/jquery-ui/jquery-ui.min.js')}}"></script>
     <script src="{{asset('assets/js/page/datatables.js')}}"></script>
+    <script src="{{asset('assets/bundles/jquery-ui/jquery-ui.min.js')}}"></script>
     <script src="{{asset('assets/bundles/prism/prism.js')}}"></script>
 @endsection
 

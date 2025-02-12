@@ -14,12 +14,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(DomaineValeurSeeder::class);
+        $this->call(PasswordDefaultSeeed::class);
+        $this->call(AdminUserSeeder::class);
 
-        // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
     }
 }

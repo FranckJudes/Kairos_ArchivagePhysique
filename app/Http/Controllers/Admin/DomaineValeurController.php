@@ -40,7 +40,7 @@ class DomaineValeurController extends Controller
             ]);
 
             DomaineValeur::create($request->all(),
-                'type' => '1'
+               [ 'type' => '1']
             );
 
             toastr()->success('Domaine de valeur créé avec succès.');

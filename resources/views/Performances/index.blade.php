@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Performance : </label>
-                                    <textarea class="form-control" name="performance_value" id="text_area_"></textarea>
+                                    <input type="number" min="0" class="form-control" name="performance_value" />
 
                                     <p> <span style="color: red; display: flex; justify-content: flex-end;" id="span_val"></span></p>
                                 </div>

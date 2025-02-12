@@ -21,11 +21,12 @@
     <!-- Core css -->
     <link rel="stylesheet" href="{{asset('assets/css/main.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/css/theme1.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/css/all.css')}}"/>
 
 
 </head>
-
-<body class="font-montserrat">
+{{--  --}}
+<body id="myBody" class="{{ Auth::user()->theme_preference ?: 'font-montserrat' }}">
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
@@ -37,15 +38,11 @@
     <div id="header_top" class="header_top">
         <div class="container">
             <div class="hleft">
-                <a class="header-brand" href="index-2.html"><i class="fa fa-soccer-ball-o brand-logo"></i></a>
+                <a class="header-brand" href="{{route('dashboard.index')}}"><i class="fa fa-soccer-ball-o brand-logo"></i></a>
                 <div class="dropdown">
-                    <a href="javascript:void(0)" class="nav-link user_btn"><img class="avatar" src="assets/images/user.png" alt="" data-toggle="tooltip" data-placement="right" title="User Menu"/></a>
-                    <a href="page-search.html" class="nav-link icon xs-hide"><i class="fa fa-search"></i></a>
-                    <a href="app-calendar.html"  class="nav-link icon app_inbox xs-hide"><i class="fa fa-calendar"></i></a>
-                    <a href="app-contact.html"  class="nav-link icon xs-hide"><i class="fa fa-id-card-o"></i></a>
-                    <a href="app-chat.html"  class="nav-link icon xs-hide"><i class="fa fa-comments-o"></i></a>
-                    <a href="app-filemanager.html"  class="nav-link icon app_file xs-hide"><i class="fa fa-folder-o"></i></a>
-                    <a href="javascript:void(0)" class="nav-link icon theme_btn xs-hide"><i class="fa fa-paint-brush" data-toggle="tooltip" data-placement="right" title="Themes"></i></a>
+                    <a href="{{route('dashboard.index')}}" class="nav-link user_btn"><img class="avatar" src="assets/images/user.png" alt="" data-toggle="tooltip" data-placement="right" title="User Menu"/></a>
+                    <a href="{{route('performances.index')}}" class="nav-link icon xs-hide"><i class="fa fa-list-ol"></i></a>
+                    <a href="{{route('intervenants.index')}}"  class="nav-link icon app_inbox xs-hide"><i class="fa fa-address-book"></i></a>
                 </div>
             </div>
             <div class="hright">
@@ -70,43 +67,6 @@
                     <label class="custom-control custom-radio custom-control-inline">
                         <input type="radio" class="custom-control-input" name="font" value="font-montserrat" checked="">
                         <span class="custom-control-label">Montserrat Google Font</span>
-                    </label>
-                    <label class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" name="font" value="font-roboto">
-                        <span class="custom-control-label">Robot Google Font</span>
-                    </label>
-                </div>
-            </div>
-            <hr>
-            <div class="mb-4">
-                <h6 class="font-14 font-weight-bold text-muted">Dropdown Menu Icon</h6>
-                <div class="custom-controls-stacked arrow_option">
-                    <label class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" name="marrow" value="arrow-a">
-                        <span class="custom-control-label">A</span>
-                    </label>
-                    <label class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" name="marrow" value="arrow-b">
-                        <span class="custom-control-label">B</span>
-                    </label>
-                    <label class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" name="marrow" value="arrow-c" checked="">
-                        <span class="custom-control-label">C</span>
-                    </label>
-                </div>
-                <h6 class="font-14 font-weight-bold mt-4 text-muted">SubMenu List Icon</h6>
-                <div class="custom-controls-stacked list_option">
-                    <label class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" name="listicon" value="list-a" checked="">
-                        <span class="custom-control-label">A</span>
-                    </label>
-                    <label class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" name="listicon" value="list-b">
-                        <span class="custom-control-label">B</span>
-                    </label>
-                    <label class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" name="listicon" value="list-c">
-                        <span class="custom-control-label">C</span>
                     </label>
                 </div>
             </div>
@@ -188,11 +148,7 @@
             </div>
             <hr>
             <div class="form-group">
-                <label class="d-block">Storage <span class="float-right">77%</span></label>
-                <div class="progress progress-sm">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: 77%;"></div>
-                </div>
-                <button type="button" class="btn btn-primary btn-block mt-3">Upgrade Storage</button>
+                <button type="button" onclick="save_my_color()" class="btn btn-primary btn-block mt-3">Enregister</button>
             </div>
         </div>
     </div>
@@ -218,115 +174,22 @@
         </div>
     </div>
 
-    <div class="user_div">
-        <h5 class="brand-name mb-4">Soccer<a href="javascript:void(0)" class="user_btn"><i class="icon-logout"></i></a></h5>
-        <div class="card-body">
-            <a href="page-profile.html"><img class="card-profile-img" src="assets/images/sm/avatar1.jpg" alt=""></a>
-            <h6 class="mb-0">Peter Richards</h6>
-            <span>peter.richard@gmail.com</span>
-            <div class="d-flex align-items-baseline mt-3">
-                <h3 class="mb-0 mr-2">9.8</h3>
-                <p class="mb-0"><span class="text-success">1.6% <i class="fa fa-arrow-up"></i></span></p>
-            </div>
-            <div class="progress progress-xs">
-                <div class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                <div class="progress-bar bg-info" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                <div class="progress-bar bg-orange" role="progressbar" style="width: 5%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                <div class="progress-bar bg-indigo" role="progressbar" style="width: 13%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            <h6 class="text-uppercase font-10 mt-1">Performance Score</h6>
-            <hr>
-            <p>Activity</p>
-            <ul class="new_timeline">
-                <li>
-                    <div class="bullet pink"></div>
-                    <div class="time">11:00am</div>
-                    <div class="desc">
-                        <h3>Attendance</h3>
-                        <h4>Computer Class</h4>
-                    </div>
-                </li>
-                <li>
-                    <div class="bullet pink"></div>
-                    <div class="time">11:30am</div>
-                    <div class="desc">
-                        <h3>Added an interest</h3>
-                        <h4>“Volunteer Activities”</h4>
-                    </div>
-                </li>
-                <li>
-                    <div class="bullet green"></div>
-                    <div class="time">12:00pm</div>
-                    <div class="desc">
-                        <h3>Developer Team</h3>
-                        <h4>Hangouts</h4>
-                        <ul class="list-unstyled team-info margin-0 p-t-5">
-                            <li><img src="assets/images/xs/avatar1.jpg" alt="Avatar"></li>
-                            <li><img src="assets/images/xs/avatar2.jpg" alt="Avatar"></li>
-                            <li><img src="assets/images/xs/avatar3.jpg" alt="Avatar"></li>
-                            <li><img src="assets/images/xs/avatar4.jpg" alt="Avatar"></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <div class="bullet green"></div>
-                    <div class="time">2:00pm</div>
-                    <div class="desc">
-                        <h3>Responded to need</h3>
-                        <a href="javascript:void(0)">“In-Kind Opportunity”</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="bullet orange"></div>
-                    <div class="time">1:30pm</div>
-                    <div class="desc">
-                        <h3>Lunch Break</h3>
-                    </div>
-                </li>
-                <li>
-                    <div class="bullet green"></div>
-                    <div class="time">2:38pm</div>
-                    <div class="desc">
-                        <h3>Finish</h3>
-                        <h4>Go to Home</h4>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
+
 
     <div id="left-sidebar" class="sidebar ">
         <h5 class="brand-name">Soccer <a href="javascript:void(0)" class="menu_option float-right"><i class="icon-grid font-16" data-toggle="tooltip" data-placement="left" title="Grid & List Toggle"></i></a></h5>
         <nav id="left-sidebar-nav" class="sidebar-nav">
             <ul class="metismenu">
                 <li class="g_heading">Project</li>
-                <li class="active"><a href="{{route('dashboard.index')}}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-                <li><a href="{{route('performances.index')}}"><i class="fa fa-list-ol"></i><span>Performances</span></a></li>
-{{--                <li><a href="project-taskboard.html"><i class="fa fa-calendar-check-o"></i><span>Presences</span></a></li>--}}
-{{--                <li><a href="project-todo.html"><i class="fa fa-check-square-o"></i><span>Todo List</span></a></li>--}}
-                <li class="g_heading">App</li>
-{{--                <li><a href="app-calendar.html"><i class="fa fa-calendar"></i><span>Calendar</span></a></li>--}}
-{{--                <li><a href="app-chat.html"><i class="fa fa-comments"></i><span></span></a></li>--}}
-                <li><a href="{{route('intervenants.index')}}"><i class="fa fa-address-book"></i><span>Intervenants</span></a></li>
-{{--                <li><a href="{{route('objectifs.index')}}"><i class="fa fa-folder"></i><span>Activites</span></a></li>--}}
-{{--                <li><a href="{{route('Objects.index')}}"><i class="fa fa-gear"></i><span>Objects</span></a></li>--}}
-                <li><a href="{{route('objectifs.index')}}"><i class="fa fa-photo"></i><span>Objectifs</span></a></li>
-                <li><a href="{{route('domaine.index')}}"><i class="fa fa-photo"></i><span>Domaine de valeurs</span></a></li>
-                <li><a href="{{route('planification.index')}}"><i class="fa fa-support"></i><span>Planification</span></a></li>
-{{--                <li>--}}
-{{--                    <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Authentication</span></a>--}}
-{{--                    <ul>--}}
-{{--                        <li><a href="login.html">Login</a></li>--}}
-{{--                        <li><a href="register.html">Register</a></li>--}}
-{{--                        <li><a href="forgot-password.html">Forgot password</a></li>--}}
-{{--                        <li><a href="404.html">404 error</a></li>--}}
-{{--                        <li><a href="500.html">500 error</a></li>--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
-{{--                <li class="g_heading">Support</li>--}}
-{{--                <li><a href="javascript:void(0)"><i class="fa fa-support"></i><span>Need Help?</span></a></li>--}}
-{{--                <li><a href="javascript:void(0)"><i class="fa fa-tag"></i><span>ContactUs</span></a></li>--}}
+                <li class="active"><a href="{{route('dashboard.index')}}"><i class="fa fa-dashboard"></i><span>&nbsp; Dashboard</span></a></li>
+                <li><a href="{{route('performances.index')}}"><i class="fa fa-list-ol"></i><span>&nbsp; Performances</span></a></li>
+                <li class="d">App</li>
+                <li><a href="{{route('intervenants.index')}}"><i class="fa fa-address-book"></i><span>&nbsp; Intervenants</span></a></li>
+                <li><a href="{{route('objectifs.index')}}"><i class="fas fa-object-ungroup"></i><span>&nbsp; Objectifs</span></a></li>
+                <li><a href="{{route('domaine.index')}}"><i class="fas fa-qrcode"></i><span>&nbsp; Domaine de valeurs</span></a></li>
+                <li><a href="{{route('planification.index')}}"><i class="far fa-calendar-times"></i><span>&nbsp; Planification</span></a></li>
+                <li><a href="{{route('users.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Utilisateurs</span></a></li>
+
             </ul>
         </nav>
     </div>
@@ -340,128 +203,23 @@
                         <h1 class="page-title">Dashboard</h1>
                     </div>
                     <div class="right">
-                        <div class="input-icon xs-hide mr-4">
+                        {{-- <div class="input-icon xs-hide mr-4">
                             <input type="text" class="form-control" placeholder="Search for...">
                             <span class="input-icon-addon"><i class="fe fe-search"></i></span>
-                        </div>
+                        </div> --}}
                         <div class="notification d-flex">
                             <div class="dropdown d-flex">
                                 <a class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-2" data-toggle="dropdown"><i class="fa fa-language"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                    <a class="dropdown-item" href="#"><img class="w20 mr-2" src="assets/images/flags/us.svg">English</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#"><img class="w20 mr-2" src="assets/images/flags/es.svg">Spanish</a>
-                                    <a class="dropdown-item" href="#"><img class="w20 mr-2" src="assets/images/flags/jp.svg">japanese</a>
+                                    <a class="dropdown-item" href="#"><img class="w20 mr-2" src="assets/images/flags/jp.svg">Anglais</a>
                                     <a class="dropdown-item" href="#"><img class="w20 mr-2" src="assets/images/flags/bl.svg">France</a>
-                                </div>
-                            </div>
-                            <div class="dropdown d-flex">
-                                <a class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-2" data-toggle="dropdown"><i class="fa fa-envelope"></i><span class="badge badge-success nav-unread"></span></a>
-                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                    <ul class="right_chat list-unstyled w350 p-0">
-                                        <li class="online">
-                                            <a href="javascript:void(0);" class="media">
-                                                <img class="media-object" src="assets/images/xs/avatar4.jpg" alt="">
-                                                <div class="media-body">
-                                                    <span class="name">Donald Gardner</span>
-                                                    <div class="message">It is a long established fact that a reader</div>
-                                                    <small>11 mins ago</small>
-                                                    <span class="badge badge-outline status"></span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="online">
-                                            <a href="javascript:void(0);" class="media">
-                                                <img class="media-object " src="assets/images/xs/avatar5.jpg" alt="">
-                                                <div class="media-body">
-                                                    <span class="name">Wendy Keen</span>
-                                                    <div class="message">There are many variations of passages of Lorem Ipsum</div>
-                                                    <small>18 mins ago</small>
-                                                    <span class="badge badge-outline status"></span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="offline">
-                                            <a href="javascript:void(0);" class="media">
-                                                <img class="media-object " src="assets/images/xs/avatar2.jpg" alt="">
-                                                <div class="media-body">
-                                                    <span class="name">Matt Rosales</span>
-                                                    <div class="message">Contrary to popular belief, Lorem Ipsum is not simply</div>
-                                                    <small>27 mins ago</small>
-                                                    <span class="badge badge-outline status"></span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="online">
-                                            <a href="javascript:void(0);" class="media">
-                                                <img class="media-object " src="assets/images/xs/avatar3.jpg" alt="">
-                                                <div class="media-body">
-                                                    <span class="name">Phillip Smith</span>
-                                                    <div class="message">It has roots in a piece of classical Latin literature from 45 BC</div>
-                                                    <small>33 mins ago</small>
-                                                    <span class="badge badge-outline status"></span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="javascript:void(0)" class="dropdown-item text-center text-muted-dark readall">Mark all as read</a>
-                                </div>
-                            </div>
-                            <div class="dropdown d-flex">
-                                <a class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-2" data-toggle="dropdown"><i class="fa fa-bell"></i><span class="badge badge-primary nav-unread"></span></a>
-                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                    <ul class="list-unstyled feeds_widget">
-                                        <li>
-                                            <div class="feeds-left"><i class="fa fa-check"></i></div>
-                                            <div class="feeds-body">
-                                                <h4 class="title text-danger">Issue Fixed <small class="float-right text-muted">11:05</small></h4>
-                                                <small>WE have fix all Design bug with Responsive</small>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="feeds-left"><i class="fa fa-user"></i></div>
-                                            <div class="feeds-body">
-                                                <h4 class="title">New User <small class="float-right text-muted">10:45</small></h4>
-                                                <small>I feel great! Thanks team</small>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="feeds-left"><i class="fa fa-thumbs-o-up"></i></div>
-                                            <div class="feeds-body">
-                                                <h4 class="title">7 New Feedback <small class="float-right text-muted">Today</small></h4>
-                                                <small>It will give a smart finishing to your site</small>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="feeds-left"><i class="fa fa-question-circle"></i></div>
-                                            <div class="feeds-body">
-                                                <h4 class="title text-warning">Server Warning <small class="float-right text-muted">10:50</small></h4>
-                                                <small>Your connection is not private</small>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="feeds-left"><i class="fa fa-shopping-cart"></i></div>
-                                            <div class="feeds-body">
-                                                <h4 class="title">7 New Orders <small class="float-right text-muted">11:35</small></h4>
-                                                <small>You received a new oder from Tina.</small>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="javascript:void(0)" class="dropdown-item text-center text-muted-dark readall">Mark all as read</a>
                                 </div>
                             </div>
                             <div class="dropdown d-flex">
                                 <a class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-2" data-toggle="dropdown"><i class="fa fa-user"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                    <a class="dropdown-item" href="page-profile.html"><i class="dropdown-icon fe fe-user"></i> Profile</a>
-                                    <a class="dropdown-item" href="app-setting.html"><i class="dropdown-icon fe fe-settings"></i> Settings</a>
-                                    <a class="dropdown-item" href="javascript:void(0)"><span class="float-right"><span class="badge badge-primary">6</span></span><i class="dropdown-icon fe fe-mail"></i> Inbox</a>
-                                    <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon fe fe-send"></i> Message</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon fe fe-help-circle"></i> Need help?</a>
-                                    <a class="dropdown-item" href="login.html"><i class="dropdown-icon fe fe-log-out"></i> Sign out</a>
+                                    <a class="dropdown-item" href="{{route('go_and_edit_profile')}}"><i class="dropdown-icon fas fa-user-edit"></i> Profile</a>
+                                    <a class="dropdown-item" href="{{route('logout')}}"><i class="dropdown-icon fas fa-sign-out-alt"></i> Sign out</a>
                                 </div>
                             </div>
                         </div>
@@ -476,13 +234,17 @@
                     <div class="col-lg-12">
 
 
-
                         @yield('content')
                     </div>
                 </div>
 
             </div>
         </div>
+        <form action="{{ route('update_theme') }}" method="POST"
+                id="my_color_theme_form_id">
+            @csrf
+            <input type="hidden" name="my_color_theme" id="my_color_theme">
+        </form>
 
         <div class="section-body">
             <footer class="footer">
@@ -513,7 +275,17 @@
     <script src="{{ asset('assets/bundles/izitoast/js/iziToast.min.js') }}"></script>
 
     <script src="{{asset('assets/js/core.js')}}"></script>
-    <script src="{{asset('assets/js/page/project-index.js')}}"></script>
+    <script src="{{asset('assets/js/all.js')}}"></script>
+    <script>
+         function save_my_color() {
+            var bodyElement = $('#myBody');
+            var classesValue = bodyElement.attr('class');
+
+            $('#my_color_theme').val(classesValue);
+            //alert(classesValue);
+            $('#my_color_theme_form_id').submit();
+        }
+    </script>
     @yield('scripts')
 </body>
 

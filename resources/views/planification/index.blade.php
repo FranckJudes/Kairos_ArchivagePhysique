@@ -2,6 +2,8 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('assets/jquery-ui.css') }}" />
+    <link rel="{{asset('stylesheet" href="assets/bundles/datatables/datatables.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">
     <style>
         /* Style pour fixer l'en-tête du tableau */
         #table-1 {
@@ -56,16 +58,19 @@
     <div class="row text-center">
         <div class="col-md-3">  <div class="card">
                 <div class="card-header">
-                    <h4 class="demoHeaders">Form</h4>
+                    <h4 class="demoHeaders">Calendrier</h4>
                 </div>
-                <div class="card-body d-flex flex-column align-items-center"> <form id="dateForm" action="{{ route('planification.store') }}" method="POST">
+                <div class="card-body d-flex flex-column align-items-center">
+                    <form id="dateForm" action="{{ route('planification.store') }}" method="POST">
                         @csrf
-                        <div id="datepicker" style="width: 100%;"></div> <input type="hidden" name="date" id="dateInput">
+                        <div id="datepicker" style="width: 100%;"></div>
+                        <input type="hidden" name="date" id="dateInput">
                         <div class="form-group">
                                 <label></label>
                             <input type="text" class="form-control" name="nom" placeholder="Nom du jour ferie">
                         </div>
-                        <div id="selectedDate"  style="color: lightskyblue; font-weight: bold;" class="text-lightskyblue mt-2 text-center"></div> <button type="submit" class="btn btn-primary w-100 mt-2">Enregistrer</button> </form>
+                        <div id="selectedDate"  style="color: lightskyblue; font-weight: bold;" class="text-lightskyblue mt-2 text-center"></div> <button type="submit" class="btn btn-primary w-100 mt-2">Enregistrer</button>
+                     </form>
                 </div>
             </div>
         </div>
@@ -114,7 +119,9 @@
 @section('scripts')
     <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
     <script src="{{ asset('assets/bundles/sweetalert/sweetalert.min.js') }}"></script>
-
+    <script src="{{asset('assets/bundles/datatables/datatables.min.js')}}"></script>
+    <script src="{{asset('assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('assets/js/page/datatables.js')}}"></script>
 
     <script>
         $("#datepicker").datepicker({
@@ -146,9 +153,7 @@
                         xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
                         xhr.onload = function() {
                             if (xhr.status === 200) {
-
                                 var response = JSON.parse(xhr.responseText);
-
                                 if (response === 'ok') {
                                     location.reload();
                                 } else {
@@ -159,11 +164,7 @@
                         xhr.send();
                         // document.location.href = url;
                     } else {
-                        {{--iziToast.error({--}}
-                        {{--    title: '{{ __('message._error') }} !'--}}
-                        {{--    , message: '{{ __('message._canceled') }}'--}}
-                        {{--    , position: 'topRight'--}}
-                        {{--});--}}
+
                     }
                 });
         }

@@ -8857,7 +8857,7 @@ $.extend( Datepicker.prototype, {
 				} )
 				.append(
 					$( "<span>" )
-						.addClass( "ui-icon ui-icon-circle-triangle-" +
+						.addClass( "fas fa-angle-double-left -" +
 							( isRTL ? "e" : "w" ) )
 						.text( prevText )
 				)[ 0 ].outerHTML;
@@ -8871,7 +8871,7 @@ $.extend( Datepicker.prototype, {
 				} )
 				.append(
 					$( "<span>" )
-						.addClass( "ui-icon ui-icon-circle-triangle-" +
+						.addClass( "fas fa-angle-double-left -" +
 							( isRTL ? "e" : "w" ) )
 						.text( prevText )
 				)[ 0 ].outerHTML;
@@ -8892,7 +8892,7 @@ $.extend( Datepicker.prototype, {
 				} )
 				.append(
 					$( "<span>" )
-						.addClass( "ui-icon ui-icon-circle-triangle-" +
+						.addClass( "fas fa-angle-double-right -" +
 							( isRTL ? "w" : "e" ) )
 						.text( nextText )
 				)[ 0 ].outerHTML;
@@ -8906,7 +8906,7 @@ $.extend( Datepicker.prototype, {
 				} )
 				.append(
 					$( "<span>" )
-						.attr( "class", "ui-icon ui-icon-circle-triangle-" +
+						.attr( "class", "fas fa-angle-double-right -" +
 							( isRTL ? "w" : "e" ) )
 						.text( nextText )
 				)[ 0 ].outerHTML;

@@ -28,20 +28,22 @@
                             <th class="text-center">
                                 #
                             </th>
-                            <th>Libelle</th>
-                            <th>Description</th>
-                            <th>Nombre de valeurs</th>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Email</th>
+                            <th>Role</th>
                             <th>Action</th>
 
                         </tr>
                         </thead>
                        <tbody>
-                           {{-- @foreach($domaineValeurs  as $key => $value)
+                           @foreach($users  as $key => $value)
                                    <tr>
                                             <td>{{$key+1}}</td>
-                                            <td>{{$value->libele}}</td>
-                                            <td>{{$value->description}}</td>
-                                            <td>{{$value->domaine_valeurs_elements->count()}}</td>
+                                            <td>{{$value->firstname}}</td>
+                                            <td>{{$value->lastname}}</td>
+                                            <td>{{$value->email}}</td>
+                                            <td>{{$value->role}}</td>
                                            <td>
                                                <div class="dropdown d-inline">
                                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2"
@@ -58,7 +60,7 @@
                                                </div>
                                            </td>
                                    </tr>
-                           @endforeach --}}
+                           @endforeach
                        </tbody>
 
                     </table>

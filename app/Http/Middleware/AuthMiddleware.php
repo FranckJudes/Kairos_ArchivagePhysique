@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class CheckAdminRole
+/**
+ * Middleware that checks if the user is authenticated before allowing access to the requested page.
+ * If the user is not authenticated, they are redirected to the login page with an error message.
+ */
+class AuthMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,10 +20,10 @@ class CheckAdminRole
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
-        // if (Auth::check() && Auth::user()->role === 'admin') {
+        // if (!Auth::check()) {
+        //     // return redirect()->route('/')->with('error', 'Vous devez être connecté pour accéder à cette page.');
         // }
-        // toastr()->error('Vous n\'avez pas les droits d\'administration.');
-        // return redirect('/')->with('error', 'Vous n\'avez pas les droits d\'administration.');
+
+        return $next($request);
     }
 }

@@ -19,7 +19,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return view('Users.index');
+        $users = User::where('role', '!=', 'super')->get();
+        return view('Users.index', compact('users'));
     }
 
     /**

@@ -21,7 +21,7 @@ class AdminUserSeeder extends Seeder
                 'firstname' => 'Admin',
                 'lastname' => 'User',
                 'email' => 'admin@example.com',
-                'role' => 'admin',
+                'role' => 'super',
                 'status' => 'active',
                 'phone' => '23700000007',
                 'birthday' => '01-01-1900',

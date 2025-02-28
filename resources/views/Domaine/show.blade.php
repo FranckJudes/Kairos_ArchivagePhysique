@@ -1,6 +1,6 @@
 @extends('Layout.main-layout')
 @section('styles')
-    <link rel="{{asset('stylesheet" href="assets/bundles/datatables/datatables.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/bundles/datatables/datatables.min.css') }}">
     <link rel="stylesheet" href="{{asset('assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/bundles/prism/prism.css')}}">
 
@@ -32,16 +32,7 @@
                                     <td>{{$key+1}}</td>
                                     <td>{{$value->libele}}</td>
                                     <td>
-                                        <div class="dropdown d-inline">
-                                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Options
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item has-icon" href="#"><i class="fa fa-edit"></i> Edit</a>
-                                                <a class="dropdown-item has-icon" href=""><i class="fa fa-trash"></i> Supprimer</a>
-                                            </div>
-                                        </div>
+                                        <a class="btn btn-danger" onclick="show_delete_users({{$value->id}})"><i class="fa fa-trash"></i> Supprimer</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -80,10 +71,41 @@
 @section('scripts')
     <script src="{{asset('assets/bundles/datatables/datatables.min.js')}}"></script>
     <script src="{{asset('assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('assets/bundles/jquery-ui/jquery-ui.min.js')}}"></script>
     <script src="{{asset('assets/js/page/datatables.js')}}"></script>
+    <script src="{{asset('assets/bundles/jquery-ui/jquery-ui.min.js')}}"></script>
     <script src="{{asset('assets/bundles/prism/prism.js')}}"></script>
+    <script src="{{ asset('assets/bundles/sweetalert/sweetalert.min.js') }}"></script>
 
+    <script>
+
+        function show_delete_users(id) {
+            event.preventDefault();
+            swal({
+                title: 'Attention !',
+                text: 'Voulez-vous vraiment supprimer cette valeur ?',
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    const url = "{{ route('domaineElement.destroy', ':id') }}".replace(':id', id);
+                    fetch(url, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                        },
+                    }).then(response => {
+                        if (response.ok) {
+                            location.reload();
+                        } else {
+                            swal('Erreur', 'Une erreur est survenue', 'error');
+                        }
+                    });
+                }
+            });
+        }
+    </script>
 @endsection
 
 

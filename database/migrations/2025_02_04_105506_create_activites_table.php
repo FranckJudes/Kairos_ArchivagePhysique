@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id()->index();
             $table->string('intitule')->unique();
             $table->string('description')->nullable();
-            $table->foreignUuid('id_objectif')->constrained('objectifs')->onDelete('cascade');
+            $table->foreignId('id_objectif')->constrained('objectifs')->onDelete('cascade');
             $table->timestamps();
         });
     }

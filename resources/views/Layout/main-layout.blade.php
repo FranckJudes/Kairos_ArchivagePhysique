@@ -10,7 +10,7 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="{{ asset('assets/bundles/izitoast/css/iziToast.min.css') }}">
 
-    <title>:: Soccer :: Project Dashboard</title>
+    <title>Stats Kairos</title>
 
     <!-- Bootstrap Core and vandor -->
     <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" />
@@ -38,9 +38,11 @@
     <div id="header_top" class="header_top">
         <div class="container">
             <div class="hleft">
-                <a class="header-brand" href="{{route('dashboard.index')}}"><i class="fa fa-soccer-ball-o brand-logo"></i></a>
+                <a class="header-brand" href="{{route('dashboard.index')}}"><i class="fas fa-redo-alt"></i></a>
                 <div class="dropdown">
-                    <a href="{{route('dashboard.index')}}" class="nav-link user_btn"><img class="avatar" src="assets/images/user.png" alt="" data-toggle="tooltip" data-placement="right" title="User Menu"/></a>
+                    <a href="{{route('dashboard.index')}}" class="nav-link user_btn">
+                        <img class="avatar" src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('assets/img/users/user-1.png') }}" alt="" data-toggle="tooltip" data-placement="right" title="{{Auth::user()->firstname .' '.Auth::user()->lastname}}"/>
+                    </a>
                     <a href="{{route('performances.index')}}" class="nav-link icon xs-hide"><i class="fa fa-list-ol"></i></a>
                     <a href="{{route('intervenants.index')}}"  class="nav-link icon app_inbox xs-hide"><i class="fa fa-address-book"></i></a>
                 </div>
@@ -177,7 +179,7 @@
 
 
     <div id="left-sidebar" class="sidebar ">
-        <h5 class="brand-name">Soccer <a href="javascript:void(0)" class="menu_option float-right"><i class="icon-grid font-16" data-toggle="tooltip" data-placement="left" title="Grid & List Toggle"></i></a></h5>
+        <h5 class="brand-name">Kairos-Stats <a href="javascript:void(0)" class="menu_option float-right"><i class="icon-grid font-16" data-toggle="tooltip" data-placement="left" title="Grid & List Toggle"></i></a></h5>
         <nav id="left-sidebar-nav" class="sidebar-nav">
             <ul class="metismenu">
                 <li class="g_heading">Project</li>

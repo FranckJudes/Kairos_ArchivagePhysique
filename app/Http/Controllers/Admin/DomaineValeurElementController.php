@@ -73,6 +73,23 @@ class DomaineValeurElementController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try{
+
+            $domaine =  DomaineValeurElement::find($id);
+
+            if ($domaine){
+
+               $domaine->delete();
+               return response()->json(['success'=> true]);
+
+            }
+
+            return response()->json(['success'=> false]);
+
+         }catch(\Exception $exception){
+
+             return response()->json(['success'=> false,'message' => $exception->getMessage()]);
+
+         }
     }
 }

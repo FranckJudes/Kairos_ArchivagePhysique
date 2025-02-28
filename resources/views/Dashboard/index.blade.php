@@ -6,7 +6,7 @@
 @section('content')
     <div class="mb-4">
         <h4>Welcome {{Auth::user()->firstname . ' '. Auth::user()->lastname }} !</h4>
-        <small>Measure How Fast You’re Growing Monthly Recurring Revenue. <a href="#">Learn More</a></small>
+        {{-- <small>Measure How Fast You’re Growing Monthly Recurring Revenue. <a href="#">Learn More</a></small> --}}
     </div>
     <div class="row ">
         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -16,9 +16,9 @@
                         <div class="row ">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                                 <div class="card-content">
-                                    <h5 class="font-15">Les Intervenants</h5>
+                                    <h5 class="font-15"> Intervenants</h5>
                                     <h2 class="mb-3 font-18">{{$breIntervenant->count()}}</h2>
-                                    <p class="mb-0"><span class="col-green">10%</span> Increase</p>
+                                    {{-- <p class="mb-0"><span class="col-green">10%</span> Increase</p> --}}
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
@@ -38,9 +38,9 @@
                         <div class="row ">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                                 <div class="card-content">
-                                    <h5 class="font-15"> Les activites</h5>
+                                    <h5 class="font-15">  Activites</h5>
                                     <h2 class="mb-3 font-18">{{$brActivites}}</h2>
-                                    <p class="mb-0"><span class="col-orange">09%</span> Decrease</p>
+                                    {{-- <p class="mb-0"><span class="col-orange">09%</span> Decrease</p> --}}
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
@@ -62,8 +62,8 @@
                                 <div class="card-content">
                                     <h5 class="font-15">Objectifs</h5>
                                     <h2 class="mb-3 font-18">{{$brObjectifs}}</h2>
-                                    <p class="mb-0"><span class="col-green">18%</span>
-                                        Increase</p>
+                                    {{-- <p class="mb-0"><span class="col-green">18%</span>
+                                        Increase</p> --}}
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
@@ -83,7 +83,7 @@
                         <div class="row ml-2">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                                 <div class="card-content">
-                                    <h5 class="font-15">Les Objects</h5>
+                                    <h5 class="font-15">Objects</h5>
                                     <h2 class="mb-3 font-18">{{$Objects}}</h2>
                                     <p class="mb-0"><span class="col-green"></span></p>
                                 </div>

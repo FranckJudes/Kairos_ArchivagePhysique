@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('type_utilisateur',['0','1'])->default('0');
             $table->string('password');
-            $table->text('bio')->default("Definir qui vous etes ici ! :)");
+            $table->string('bio')->default("Definir qui vous etes ici ! :)");
             $table->string('theme_preference')->nullable()->default('iconcolor gradient font-opensans');
             $table->rememberToken();
             $table->timestamps();

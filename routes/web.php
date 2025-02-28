@@ -56,4 +56,5 @@ Route::middleware(['auth'])->group(function () {
 
     // Routes utilisateur
     Route::post('/update_theme', [UsersController::class, 'update_theme'])->name('update_theme');
+    Route::post('/updatePassword', [UsersController::class, 'updatePassword'])->name('updatePassword');
 });

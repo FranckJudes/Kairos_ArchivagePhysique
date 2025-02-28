@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\PasswordDefault;
 use App\Models\User;
 use Exception;
-use Illuminate\Container\Attributes\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -111,37 +110,31 @@ class UsersController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        try{
-
-            $user = User::find($id);
+        try {
+            $user = User::findOrFail($id);
 
             $rules = [
                 'firstname' => 'required|string|max:255',
                 'lastname' => 'required|string|max:255',
+                'bio' => 'required|string|max:255',
                 'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-                'password' => 'nullable|string|min:8|confirmed',
-                'role' => 'required|in:admin,user',
-                // 'status' => 'required|in:active,inactive',
                 'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'role' => 'nullable|string|max:255',
             ];
 
             $validator = Validator::make($request->all(), $rules);
 
             if ($validator->fails()) {
-                toastr()->error($validator);
+                toastr()->error('Validation error');
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
             $user->firstname = $request->input('firstname');
             $user->lastname = $request->input('lastname');
             $user->email = $request->input('email');
-            $user->role = $request->input('role');
-            $user->status = $request->input('status');
-            $user->type_utilisateur = $request->input('type_utilisateur');
-            $user->theme_preference = $request->input('theme_preference');
-
-            if ($request->filled('password')) {
-                $user->password = Hash::make($request->input('password'));
+            $user->bio = $request->input('bio');
+            if ($request->has('role')) {
+                $user->role = $request->input('role');
             }
 
             if ($request->hasFile('profile_image')) {
@@ -151,13 +144,12 @@ class UsersController extends Controller
 
             $user->save();
 
-            toastr()->success('User updated successfully.');
-            return redirect()->back()->with('success', 'User updated successfully.');
-
-           }catch(Exception $exception){
-                toastr()->error($exception->getMessage());
-                return back();
-           }
+            toastr()->success('Utilisateur mis à jour avec succès.');
+            return redirect()->back();
+        } catch (Exception $exception) {
+            toastr()->error($exception->getMessage());
+            return redirect()->back();
+        }
     }
 
     /**
@@ -178,11 +170,11 @@ class UsersController extends Controller
 
            return response()->json(['success'=> false]);
 
-           }catch(Exception $exception){
+        }catch(Exception $exception){
 
-                return response()->json(['success'=> false,'message' => $exception->getMessage()]);
+            return response()->json(['success'=> false,'message' => $exception->getMessage()]);
 
-           }
+        }
     }
 
 
@@ -201,6 +193,34 @@ class UsersController extends Controller
 
         }catch (\Exception $e){
             toastr()->error('Une erreur est survenue !');
+            return redirect()->back();
+        }
+    }
+
+    public function updatePassword(Request $request)
+    {
+        try {
+            $request->validate([
+                'old_password' => 'required',
+                'new_password' => 'required|min:8|confirmed',
+            ]);
+
+            $user = Auth::user();
+
+            // Vérifier si l'ancien mot de passe est correct
+            if (!Hash::check($request->old_password, $user->password)) {
+                toastr()->error('Ancien mot de passe incorrect');
+                return redirect()->back();
+            }
+
+            // Mettre à jour le mot de passe
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+
+            toastr()->success('Mot de passe mis à jour avec succès');
+            return redirect()->back();
+        } catch (Exception $th) {
+            toastr()->error('Une erreur est survenue. Veuillez réessayer.');
             return redirect()->back();
         }
     }

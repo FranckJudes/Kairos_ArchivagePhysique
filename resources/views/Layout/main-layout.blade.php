@@ -179,7 +179,7 @@
 
 
     <div id="left-sidebar" class="sidebar ">
-        <h5 class="brand-name">Kairos-Stats <a href="javascript:void(0)" class="menu_option float-right"><i class="icon-grid font-16" data-toggle="tooltip" data-placement="left" title="Grid & List Toggle"></i></a></h5>
+        <h5 class="brand-name">Kairos-Monitors <a href="javascript:void(0)" class="menu_option float-right"><i class="icon-grid font-16" data-toggle="tooltip" data-placement="left" title="Grid & List Toggle"></i></a></h5>
         <nav id="left-sidebar-nav" class="sidebar-nav">
             <ul class="metismenu">
                 <li class="g_heading">Project</li>
@@ -191,6 +191,8 @@
                 <li><a href="{{route('domaine.index')}}"><i class="fas fa-qrcode"></i><span>&nbsp; Domaine de valeurs</span></a></li>
                 <li><a href="{{route('planification.index')}}"><i class="far fa-calendar-times"></i><span>&nbsp; Planification</span></a></li>
                 <li><a href="{{route('users.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Utilisateurs</span></a></li>
+                <li><a href="{{route('entity.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Plan de classement </span></a></li>
+                <li><a href="{{route('presences.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Gestion des presences</span></a></li>
 
             </ul>
         </nav>
@@ -275,6 +277,7 @@
     <script src="{{asset('assets/bundles/knobjs.bundle.js')}}"></script>
     <script src="{{asset('assets/bundles/c3.bundle.js')}}"></script>
     <script src="{{ asset('assets/bundles/izitoast/js/iziToast.min.js') }}"></script>
+    <script src="{{ asset('assets/bundles/sweetalert/sweetalert.min.js') }}"></script>
 
     <script src="{{asset('assets/js/core.js')}}"></script>
     <script src="{{asset('assets/js/all.js')}}"></script>

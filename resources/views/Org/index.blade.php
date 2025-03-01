@@ -35,7 +35,7 @@
                                         <div class="card">
                                             <div class="card-header">
                                                 <h4>({{ $num }}) {{ __('message._entity') }}(s) </h4>
-                                                <div class="card-header-action">
+                                                <div class="card-header-action" style="display: flex;justify-content: space-between">
                                                         <a href="#" class="btn btn-success" data-toggle="modal" data-target="#add_entityModal_Entite">
                                                             {{ __('message._add') }}
                                                         </a>
@@ -538,7 +538,7 @@
                                     btnn += "<a id='del_element-" + treeNode.id + "' onclick='event.preventDefault();show_delete_sub(" + treeNode.id + ")' data-toggle='modal' data-target='#del_childModal-" + treeNode.id + "' class='btn btn-danger'><i class='fas fa-trash ptplkai'></i></a>&nbsp;&nbsp;";
                                     btnn += `<a href="#" data-toggle="dropdown" class="btn btn-secondary dropdown-toggle"><i class='fas fa-user-alt ptplkai'></i></a>
                                                 <div class="dropdown-menu">
-                                                    <a id="add_user-${treeNode.id}" onclick="event.preventDefault();show_add_user_to_entity(${treeNode.id})" class="dropdown-item has-icon derd"><i class="fas fa-plus" style="color: black"></i> {{ __('message._add_1user') }}</a>
+                                                    <a id="add_user-${treeNode.id}" href="add_post_work/${treeNode.id}" class="dropdown-item has-icon derd"><i class="fas fa-plus" style="color: black"></i> {{ __('message._add_1user') }}</a>
                                                     <a id="view_user-${treeNode.id}" onclick="event.preventDefault();show_access_entity(${treeNode.id})" class="dropdown-item has-icon derd"><i class="fas fa-unlock"></i> {{ __('message.__att_to_access_') }}</a>
                                                     <a id="view_user-${treeNode.id}" href="km_entity_detail/${treeNode.id}" class="dropdown-item has-icon derd"> <strong><i class="fas fa-eye"></i> {{ __('message._option') }}</strong> </a>
                                                 </div>`;
@@ -562,6 +562,9 @@
 
     }
 
+    // function show_add_post_work(id) {
+
+    // }
 
     function show_add_sub(id) {
 

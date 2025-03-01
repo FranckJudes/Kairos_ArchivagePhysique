@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\EntiteOrganisation;
+use App\Models\PostTravail;
 use App\Models\TypeEntite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -213,6 +214,14 @@ class EntitesController extends Controller
             $resp['msg'] = $e->getMessage();
             return response()->json($resp);
         }
+    }
+
+    public function go_to_view_add_post_job($id){
+
+        $entite = EntiteOrganisation::where('id',$id)->first();
+        $posts = PostTravail::where('entite_id',$id)->get();
+        return view('Org.post_work',compact('entite','posts'));
+
     }
 
 }

@@ -5,11 +5,13 @@ use App\Http\Controllers\Admin\{
     DomaineValeurController,
     DomaineValeurElementController,
     EntitesController,
+    EtatsController,
     IntervenantController,
     ObjectifController,
     ObjectController,
     PerformanceController,
     PlanificationController,
+    PostWorController,
     PresencesController,
     TypeControllerController
 };
@@ -39,6 +41,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('entity', EntitesController::class);
     Route::resource('type_entity', TypeControllerController::class);
     Route::resource('presences', PresencesController::class);
+    Route::resource('etats', EtatsController::class);
+    Route::resource('postWork', PostWorController::class);
 
     // Routes de performance
     Route::controller(PerformanceController::class)->group(function () {
@@ -58,6 +62,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/get_type_entity_api', [EntitesController::class, 'get_type_entity_api'])->name('get_type_entity_api');
     Route::post('/store_subentity', [EntitesController::class, 'store_subentity'])->name('store_subentity');
     Route::delete('/destroy_entity/{id}', [TypeControllerController::class, 'destroy_entity'])->name('destroy_entity');
+    Route::get('/add_post_work/{id}', [EntitesController::class, 'go_to_view_add_post_job'])->name('go_to_view_add_post_job');
 
     // Routes d'authentification et profil
     Route::controller(AuthController::class)->group(function () {

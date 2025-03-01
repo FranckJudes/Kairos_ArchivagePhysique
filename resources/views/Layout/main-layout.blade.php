@@ -28,10 +28,10 @@
 {{--  --}}
 <body id="myBody" class="{{ Auth::user()->theme_preference ?: 'font-montserrat' }}">
 <!-- Page Loader -->
-<div class="page-loader-wrapper">
+{{-- <div class="page-loader-wrapper">
     <div class="loader">
     </div>
-</div>
+</div> --}}
 
 <div id="main_content">
 
@@ -193,6 +193,7 @@
                 <li><a href="{{route('users.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Utilisateurs</span></a></li>
                 <li><a href="{{route('entity.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Plan de classement </span></a></li>
                 <li><a href="{{route('presences.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Gestion des presences</span></a></li>
+                <li><a href="{{route('etats.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Les etats</span></a></li>
 
             </ul>
         </nav>

@@ -69,25 +69,30 @@ class PostWorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
         try {
-
             $request->validate([
                 'code' => 'required|unique:post_travails,code,' . $id,
                 'intitule' => 'required',
                 'entite_id' => 'required|exists:entite_organisations,id',
             ]);
 
+            $postTravail = PostTravail::findOrFail($id);
+
             $postTravail->update($request->all());
-                toastr()->error("Poste de travail ajouté avec succès");
-                return redirect()->back();
+            toastr()->success("Poste de travail mis à jour avec succès");
+
+            return redirect()->back();
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            toastr()->error("Erreur de validation : " . $e->validator->errors()->first());
+            return redirect()->back()->withErrors($e->validator->errors())->withInput();
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            toastr()->error("Poste de travail non trouvé.");
+            return redirect()->back();
 
         } catch (\Exception $th) {
-
-            toastr()->error($th->getMessage());
-            return redirect()->back();
-        }finally{
-            toastr()->error("Erreur lors de l'enregistrement du post de travail.");
+            toastr()->error("Une erreur s'est produite : " . $th->getMessage());
             return redirect()->back();
         }
     }

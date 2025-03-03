@@ -17,9 +17,6 @@ class CheckAdminRole
     public function handle(Request $request, Closure $next): Response
     {
         return $next($request);
-        // if (Auth::check() && Auth::user()->role === 'admin') {
-        // }
-        // toastr()->error('Vous n\'avez pas les droits d\'administration.');
-        // return redirect('/')->with('error', 'Vous n\'avez pas les droits d\'administration.');
+
     }
 }

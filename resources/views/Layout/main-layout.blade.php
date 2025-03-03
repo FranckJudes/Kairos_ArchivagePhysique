@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="{{asset('assets/images/monitor_kairos.jpg')}}" type="image/x-icon"/>
     <link rel="stylesheet" href="{{ asset('assets/bundles/izitoast/css/iziToast.min.css') }}">
 
-    <title>Kairos - Monitor</title>
+    <title>Talent360</title>
 
     <!-- Bootstrap Core and vandor -->
     <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" />
@@ -36,9 +36,9 @@
 <div id="main_content">
 
     <div id="header_top" class="header_top">
+        <a class="header-brand" style="text-align: center;" href="{{route('dashboard.index')}}"><img src="{{asset('assets/images/monitor_kairos.jpg')}}"  alt=""></a>
         <div class="container">
             <div class="hleft">
-                <a class="header-brand" href="{{route('dashboard.index')}}"><i class="fas fa-redo-alt"></i></a>
                 <div class="dropdown">
                     <a href="{{route('dashboard.index')}}" class="nav-link user_btn">
                         <img class="avatar" src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('assets/img/users/user-1.png') }}" alt="" data-toggle="tooltip" data-placement="right" title="{{Auth::user()->firstname .' '.Auth::user()->lastname}}"/>
@@ -179,21 +179,23 @@
 
 
     <div id="left-sidebar" class="sidebar ">
-        <h5 class="brand-name">Kairos-Monitor <a href="javascript:void(0)" class="menu_option float-right"><i class="icon-grid font-16" data-toggle="tooltip" data-placement="left" title="Grid & List Toggle"></i></a></h5>
+        <h5 class="brand-name" style="display: grid; place-items: center; padding-top:10px; padding-right:60px; font-size: 15px; font-weight: 600; text-transform: uppercase;">
+            Talent360
+            <a href="javascript:void(0)" class="menu_option float-right"></a></h5>
         <nav id="left-sidebar-nav" class="sidebar-nav">
             <ul class="metismenu">
                 <li class="g_heading">Project</li>
                 <li class="active"><a href="{{route('dashboard.index')}}"><i class="fa fa-dashboard"></i><span>&nbsp; Dashboard</span></a></li>
-                <li><a href="{{route('performances.index')}}"><i class="fa fa-list-ol"></i><span>&nbsp; Performances</span></a></li>
-                <li><a href="{{route('presences.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Gestion des presences</span></a></li>
+                <li><a href="{{route('presences.index')}}"><i class="far fa-calendar-check"></i><span>&nbsp; Presence</span></a></li>
+                <li><a href="{{route('performances.index')}}"><i class="fas fa-chart-line"></i><span>&nbsp; Performances</span></a></li>
+                <li><a href="{{route('etats.index')}}"><i class="fas fa-th"></i><span>&nbsp; Edition</span></a></li>
                 <li class="d">App</li>
                 <li><a href="{{route('intervenants.index')}}"><i class="fa fa-address-book"></i><span>&nbsp; Intervenants</span></a></li>
-                <li><a href="{{route('objectifs.index')}}"><i class="fas fa-object-ungroup"></i><span>&nbsp; Objectifs</span></a></li>
-                <li><a href="{{route('domaine.index')}}"><i class="fas fa-qrcode"></i><span>&nbsp; Domaine de valeurs</span></a></li>
-                <li><a href="{{route('planification.index')}}"><i class="far fa-calendar-times"></i><span>&nbsp; Planification</span></a></li>
+                <li><a href="{{route('objectifs.index')}}"><i class="fas fa-chess"></i><span>&nbsp; Objectifs</span></a></li>
+                <li><a href="{{route('domaine.index')}}"><i class="fas fa-coins"></i><span>&nbsp; Domaine de valeurs</span></a></li>
+                <li><a href="{{route('planification.index')}}"><i class="far fa-calendar-alt"></i><span>&nbsp; Planification</span></a></li>
                 <li><a href="{{route('users.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Utilisateurs</span></a></li>
-                <li><a href="{{route('entity.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Plan de classement </span></a></li>
-                <li><a href="{{route('etats.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Les etats</span></a></li>
+                <li><a href="{{route('entity.index')}}"><i class="fas fa-sitemap"></i><span>&nbsp; Plan de classement </span></a></li>
 
             </ul>
         </nav>

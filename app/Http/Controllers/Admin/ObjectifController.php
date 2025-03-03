@@ -42,7 +42,7 @@ class ObjectifController extends Controller
             $request->validate([
                 'code' => 'nullable|string|unique:objectifs,code',
                 'activite' => 'required|int|max:255',
-                'typologie' => 'required|int|max:255',
+                // 'typologie' => 'required|int|max:255',
                 'unites' => 'required|int',
                 'periodicite' => 'required|int|max:255',
                 'valeur_cible' => 'required|int|max:255',

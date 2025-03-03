@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\{
     DomaineValeurElementController,
     EntitesController,
     EtatsController,
+    FichePostController,
     IntervenantController,
     ObjectifController,
     ObjectController,
@@ -17,7 +18,6 @@ use App\Http\Controllers\Admin\{
 };
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\UsersController;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('presences', PresencesController::class);
     Route::resource('etats', EtatsController::class);
     Route::resource('postWork', PostWorController::class);
+    Route::resource('post_travail', FichePostController::class);
 
     // Routes de performance
     Route::controller(PerformanceController::class)->group(function () {
@@ -56,7 +57,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/performances_all', 'get_peformance_user_folders')->name('performances.all');
     });
 
-    // Routes du tableau de bord
     Route::get('/get_peformance_user_chart', [DashbaordController::class, 'get_peformance_user_chart'])->name('get_peformance_user_chart');
     Route::get('/load_entity_for_js', [EntitesController::class, 'load_entity_for_js'])->name('load_entity_for_js');
     Route::get('/get_type_entity_api', [EntitesController::class, 'get_type_entity_api'])->name('get_type_entity_api');
@@ -64,13 +64,11 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/destroy_entity/{id}', [TypeControllerController::class, 'destroy_entity'])->name('destroy_entity');
     Route::get('/add_post_work/{id}', [EntitesController::class, 'go_to_view_add_post_job'])->name('go_to_view_add_post_job');
 
-    // Routes d'authentification et profil
     Route::controller(AuthController::class)->group(function () {
         Route::get('/logout', 'logout')->name('logout');
         Route::get('/profile', 'go_and_edit_profile')->name('go_and_edit_profile');
     });
 
-    // Routes utilisateur
     Route::post('/update_theme', [UsersController::class, 'update_theme'])->name('update_theme');
     Route::post('/updatePassword', [UsersController::class, 'updatePassword'])->name('updatePassword');
 });

@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use http\Env\Response;
 use Illuminate\Http\Request;
-use App\Models\JourFerier
+use App\Models\JourFerier;
+
 
 class DayController extends Controller
 {

@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('domaine_valeur_elements', function (Blueprint $table) {
             $table->id()->index();
             $table->string('libele');
+            $table->string('description')->nullable();;
             $table->enum('type',['0','1'])->default('0'); //1 canot delete // 0 can delete.
             $table->foreignId('id_domaine')->constrained('domaine_valeurs')->onDelete('cascade');
             $table->timestamps();
         });
+
     }
 
     /**

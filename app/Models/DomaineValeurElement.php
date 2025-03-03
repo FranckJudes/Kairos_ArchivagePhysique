@@ -9,7 +9,7 @@ class   DomaineValeurElement extends Model
 {
     public $incrementing = false;
     protected $fillable = [
-        'id', 'libele', 'type', 'id_domaine'
+        'id', 'libele', 'type','description','id_domaine'
     ];
     public function domaineValeur()
     {

@@ -7,11 +7,19 @@
 @endsection
 
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-primary text-white-all">
+            <li class="breadcrumb-item" ><a href="{{route('dashboard.index')}}" style="color: white"><i class="fas fa-tachometer-alt"></i>&nbsp; Home</a></li>
+            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-cog"></i>&nbsp; App</a></li>
+            <li class="breadcrumb-item" ><a href="{{route('domaine.index')}}" style="color: white"><i class="fas fa-coins"></i>&nbsp; Domaine de valeurs</a></li>
+            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-align-center"                ></i>&nbsp; Liste des valeurs</a></li>
+        </ol>
+    </nav>
     <div class="row">
         <div class="col-8">
             <div class="card">
                 <div class="card-header">
-                    <h4>Les valeurs  {{$domaineValeursElements->libele}}</h4>
+                    <h4>Liste des valeurs</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -22,6 +30,7 @@
                                     #
                                 </th>
                                 <th>Libelle</th>
+                                <th>description</th>
                                 <th>Action</th>
 
                             </tr>
@@ -31,6 +40,7 @@
                                 <tr>
                                     <td>{{$key+1}}</td>
                                     <td>{{$value->libele}}</td>
+                                    <td>{{$value->description}}</td>
                                     <td>
                                         <a class="btn btn-danger" onclick="show_delete_users({{$value->id}})"><i class="fa fa-trash"></i> Supprimer</a>
                                     </td>
@@ -56,6 +66,10 @@
                             <label>Libelle </label>
                             <input type="text" class="form-control" name="libele" placeholder="Entrez le libelle">
                             <input type="hidden"  name="id_domaine" value="{{$domaineValeursElements->id}}" placeholder="Entrez le libelle">
+                        </div>
+                        <div class="form-group">
+                            <label>Description </label>
+                            <textarea class="form-control" name="description" placeholder="Entrez la description"></textarea>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-primary" style="width: 100%">Enregister</button>

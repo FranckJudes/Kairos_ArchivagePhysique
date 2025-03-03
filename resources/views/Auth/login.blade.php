@@ -6,14 +6,30 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="{{asset('assets/images/monitor_kairos.jpg')}}" type="image/x-icon"/>
 
-    <title>:: Soccer :: Soccer</title>
+    <title>Talent360</title>
     <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" />
 
     <link rel="stylesheet" href="{{asset('assets/css/main.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/css/theme1.css')}}"/>
+    <style>
+        .auth_right.full_img {
+            position: fixed; /* Fixe l'image à la fenêtre du navigateur */
+            top: 0;
+            left: 0;
+            width: 100%; /* Couvre toute la largeur de l'écran */
+            height: 100%; /* Couvre toute la hauteur de l'écran */
+            overflow: hidden; /* Empêche le défilement si l'image est plus grande que la fenêtre */
+            z-index: -1; /* Place l'image derrière le contenu */
+        }
 
+        .auth_right.full_img img {
+            width: 100%; /* L'image remplit le conteneur */
+            height: 100%; /* L'image remplit le conteneur */
+            object-fit: cover; /* L'image couvre tout le conteneur, en coupant si nécessaire */
+        }
+    </style>
 </head>
 <body class="font-montserrat">
 
@@ -21,7 +37,7 @@
     <div class="auth_left">
         <div class="card">
             <div class="text-center mb-2">
-                <a class="header-brand" ><i class="fa fa-soccer-ball-o brand-logo"></i></a>
+                <a class="header-brand" ><img src="{{asset('assets/images/monitor_kairos.jpg')}}" width="50" height="50" alt=""></a>
             </div>
             <div class="card-body">
                 <form  method="POST" action="{{route('doLogin')}}">
@@ -48,7 +64,9 @@
 
         </div>
     </div>
-    <div class="auth_right full_img"></div>
+    <div class="auth_right full_img">
+        <img src="{{ asset('assets/images/life.png') }}">
+    </div>
 </div>
 
 <script src="{{asset('assets/bundles/lib.vendor.bundle.js')}}"></script>

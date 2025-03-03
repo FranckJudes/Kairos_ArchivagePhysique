@@ -19,9 +19,12 @@ class DashbaordController extends Controller
     public function index()
     {
         $breIntervenant = Intervenant::all();
-        $brActivites = DomaineValeur::where('libele','Activites')->count();
+        $brActivites = DomaineValeur::where('libele','Activites')->with('domaine_valeurs_elements')->first();
         $brObjectifs = Objectif::count();
-        $Objects = Objectif::count();
+        $Objects = DomaineValeur::where('libele','Typologie documentaire')->with('domaine_valeurs_elements')->first();
+
+
+
 
         return view('Dashboard.index',compact('breIntervenant','brActivites','brObjectifs','Objects'));
     }
@@ -109,13 +112,11 @@ class DashbaordController extends Controller
                     return response()->json(['error' => 'Période invalide'], 400);
             }
 
-            // Récupérer les performances par période
             $performances = Performance::whereBetween('date_performance', [$dateDebut, $dateFin])
                 ->selectRaw('intervenant, activites, SUM(performance_value) as total_performance')
                 ->groupBy('intervenant', 'activites')
                 ->get();
 
-            // Structurer les résultats pour le graphique
             $resultats = [];
 
             foreach ($performances as $performance) {

@@ -55,7 +55,7 @@ class EntitesController extends Controller
                 $enty_org->libele = $libele;
                 $enty_org->description =  $desc;
                 $enty_org->type_entity_id = $type;
-                $enty_org->fonction = $request->fonction_archive;
+                // $enty_org->fonction = $request->fonction_archive;
                 $enty_org->save();
                 $resp['error'] = 'no';
                 $resp['msg'] = 'success';
@@ -120,7 +120,7 @@ class EntitesController extends Controller
     }
     public function load_entity_for_js()
     {
-        // Récupérer tous les types d'entités
+
         $types = TypeEntite::all();
 
         $data = [];
@@ -223,5 +223,7 @@ class EntitesController extends Controller
         return view('Org.post_work',compact('entite','posts'));
 
     }
+
+
 
 }

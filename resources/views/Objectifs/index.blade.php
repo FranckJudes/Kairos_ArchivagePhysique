@@ -9,9 +9,9 @@
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-primary text-white-all">
-            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> Home</a></li>
-            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> App</a></li>
-            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> Liste de valeurs</a></li>
+            <li class="breadcrumb-item" ><a href="{{route('dashboard.index')}}" style="color: white"><i class="fas fa-tachometer-alt"></i>&nbsp; Home</a></li>
+            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-cog"></i>&nbsp; App</a></li>
+            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-chess"></i>&nbsp; Objectifs</a></li>
         </ol>
     </nav>
     <div class="row">
@@ -32,7 +32,6 @@
                                 <th>Activites</th>
                                 <th>Typologie</th>
                                 <th>Valeur Cible</th>
-
                                 <th>Action</th>
 
                             </tr>
@@ -44,7 +43,7 @@
                                     <td>{{$key+1}}</td>
                                     <td>{{$value->code}}</td>
                                     <td>{{$value->activites->libele}}</td>
-                                    <td>{{$value->typologies->libele}}</td>
+                                    <td>{{optional($value->typologies)->libele}}</td>
 
                                     <td>{{$value->valeur_cible}} {{$value->unite->libele}} / {{$value->periodicites->libele}}</td>
 
@@ -95,7 +94,7 @@
                         </div>
                         <div class="form-group">
                             <label>Typologie </label>
-                            <select class="form-control" required name="typologie">
+                            <select class="form-control" name="typologie">
                                 @foreach($typologie->domaine_valeurs_elements as $key => $value)
                                     <option value="{{$value->id}}">{{ $value->libele }}</option>
                                 @endforeach
@@ -120,7 +119,7 @@
 
                         <div class="form-group">
                             <label>Commentaire : </label>
-                            <textarea type="text" class="form-control" name="commentaires" required placeholder="Entrez le commentaire"></textarea>
+                            <textarea type="text" class="form-control" name="commentaires" placeholder="Entrez le commentaire"></textarea>
                         </div>
 
                         <div class="form-group">

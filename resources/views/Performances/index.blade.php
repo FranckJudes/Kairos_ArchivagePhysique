@@ -11,9 +11,9 @@
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-primary text-white-all">
-            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> Home</a></li>
-            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> App</a></li>
-            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> Performances </a></li>
+            <li class="breadcrumb-item" ><a href="{{route('dashboard.index')}}" style="color: white"><i class="fas fa-tachometer-alt"></i>&nbsp; Home</a></li>
+            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-cog"></i>&nbsp; App</a></li>
+            <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-chart-line"></i>&nbsp; Performance</a></li>
         </ol>
     </nav>
     <div class="row">
@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Date :</label>
-                                    <input type="date" class="form-control datepicker" name="date_performance" id="datepicker" />
+                                    <input type="date" class="form-control datepicker" value="{{ today()->format('Y-m-d') }}" name="date_performance" id="datepicker" />
                                 </div>
                             </div>
                             <div class="col-4">

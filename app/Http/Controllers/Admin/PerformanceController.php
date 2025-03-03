@@ -307,7 +307,7 @@ class PerformanceController extends Controller
                 'intervenant' => 'required',
                 'date_performance' => 'required',
                 'activites' => 'required',
-                'object' => 'required',
+                // 'object' => 'required',
                 'performance_value' => 'required',
             ]);
             $performance = new Performance();

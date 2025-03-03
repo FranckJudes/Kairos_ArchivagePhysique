@@ -10,33 +10,35 @@
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-primary text-white-all">
-            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> Home</a></li>
-            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> App</a></li>
-            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> ENregistrements de precenses</a></li>
+            <li class="breadcrumb-item" ><a href="{{route('dashboard.index')}}" style="color: white"><i class="fas fa-tachometer-alt"></i>&nbsp; Home</a></li>
+            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-cog"></i>&nbsp; App</a></li>
+            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="far fa-calendar-check"></i>&nbsp; Gestion des precenses</a></li>
         </ol>
     </nav>
     <div class="row">
         <div class="col-8">
             <div class="card">
                 <div class="card-header">
-                    <h4>Presences</h4>
+                    <h4>Gestion des presences</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped" id="table-1">
                             <thead>
                                <tr>
+                                <th>#</th>
                                 <th class="text-center">Intervenant</th>
                                 <th>Date</th>
-                                <th>Absent/Present</th>
-                                <th>Heure D'arrivee</th>
-                                <th>Heure de depart</th>
+                                <th>Presence</th>
+                                <th>Arrivee</th>
+                                <th>Depart</th>
                                 <th>Action</th>
                                </tr>
                             </thead>
                             <tbody>
-                                @foreach($presences as $presence)
+                                @foreach($presences as $key => $presence)
                                     <tr>
+                                        <td>{{$key+1}}</td>
                                         <td>{{ $presence->intervenant->firstname . ' ' . $presence->intervenant->lastname }}</td>
                                         <td>{{ $presence->date }}</td>
                                         <td>{{ $presence->presentOrAbsent == 0 ? 'Présent' : 'Absent' }}</td>

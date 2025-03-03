@@ -9,9 +9,9 @@
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-primary text-white-all">
-            <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> Home</a></li>
-            <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> App</a></li>
-            <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-user-alt"></i> Les Utilisateurs</a></li>
+            <li class="breadcrumb-item" ><a href="{{route('dashboard.index')}}" style="color: white"><i class="fas fa-tachometer-alt"></i>&nbsp; Home</a></li>
+            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-cog"></i>&nbsp; App</a></li>
+            <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-user-alt"></i> Utilisateurs</a></li>
         </ol>
     </nav>
     <div class="row">

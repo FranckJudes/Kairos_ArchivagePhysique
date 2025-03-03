@@ -45,7 +45,7 @@ class DomaineValeurSeeder extends Seeder
                 'updated_at' => now(),
             ]);
             DB::table('domaine_valeurs')->insert([
-                'libele' => 'unites',
+                'libele' => 'Unites',
                 'description' => 'Liste des unites.',
                 'type' => '1', // Peut être supprimé
                 'created_at' => now(),

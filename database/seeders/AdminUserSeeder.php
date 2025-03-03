@@ -24,7 +24,7 @@ class AdminUserSeeder extends Seeder
                 'role' => 'super',
                 'status' => 'active',
                 'phone' => '23700000007',
-                'birthday' => '01-01-1900',
+                'birthday' => now(),
                 'password' => Hash::make('password'),
                 'bio' => 'I am the administrator.',
                 'theme_preference' => 'iconcolor gradient font-opensans',

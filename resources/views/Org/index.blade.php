@@ -7,9 +7,9 @@
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-primary text-white-all">
-            <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> Accueil</a></li>
-            <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> Application</a></li>
-            <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> Organigramme</a></li>
+            <li class="breadcrumb-item" ><a href="{{route('dashboard.index')}}" style="color: white"><i class="fas fa-tachometer-alt"></i>&nbsp; Home</a></li>
+            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-cog"></i>&nbsp; App</a></li>
+            <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-sitemap"></i>&nbsp; Organigramme</a></li>
         </ol>
     </nav>
     <div class="row">
@@ -33,7 +33,7 @@
                                 <div class="row">
                                     <div class="col-8">
                                         <div class="card">
-                                            <div class="card-header">
+                                            <div class="card-header" style="display: flex;justify-content: space-between">
                                                 <h4>({{ $num }}) Entité(s)</h4>
                                                 <div class="card-header-action" style="display: flex;justify-content: space-between">
                                                     <a href="#" class="btn btn-success" data-toggle="modal" data-target="#add_entityModal_Entite">
@@ -170,7 +170,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label class="control-label" for="type">Fonction *</label>
                             <div class="mb-2">
                                 <select class="form-control" id="fonction_archive_update" name="fonction_archive">
@@ -179,7 +179,7 @@
                                     <option value="4">Service d'archivage</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="form-group modal-footer">
                             <button type="button" onclick="create_entity_store()" class="btn btn-success" name="signup1" value="Sign up" style="margin-top: 10px;">Créer une entité</button>
                         </div>
@@ -321,46 +321,57 @@
     }
 
     function load_file_schemes() {
-        $('#tableExport_type_entity').DataTable({
-            processing: true,
-            serverSide: true,
-            destroy: true,
-            ajax: {
-                url: "{{ route('load_entity_for_js') }}",
-                type: 'GET',
-                dataSrc: function(json) {
-                    if (!json.data) {
-                        console.error("Erreur : 'data' est undefined dans la réponse AJAX", json);
-                        return [];
-                    }
-                    return json.data;
-                }
-            },
-            columns: [
-                { data: 'nb', name: 'id', className: 'text-center' },
-                { data: 'libele', name: 'libelle', className: 'text-center' },
-                { data: 'description', name: 'description', className: 'text-center' },
-                {
-                    data: null,
-                    orderable: false,
-                    searchable: false,
-                    className: 'text-center',
-                    render: function(data) {
-                        return `
-                            <div class="dropdown">
-                                <a href="#" data-toggle="dropdown" class="btn btn-warning dropdown-toggle" style="color: white;">Options</a>
-                                <div class="dropdown-menu">
-                                    <a href="#" onclick="event.preventDefault();edit_entity(${data.id})" class="dropdown-item has-icon"><i class="far fa-edit"></i> Modifier</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="#" onclick="event.preventDefault();delete_entity(${data.id});" class="dropdown-item has-icon text-danger"><i class="far fa-trash-alt"></i> Supprimer</a>
-                                </div>
-                            </div>
-                        `;
-                    }
-                }
-            ]
-        });
+    // Détruire la table si elle existe déjà
+    if ($.fn.DataTable.isDataTable('#tableExport_type_entity')) {
+        $('#tableExport_type_entity').DataTable().destroy();
     }
+
+    // Initialiser DataTable
+    $('#tableExport_type_entity').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "{{ route('load_entity_for_js') }}",
+            type: 'GET',
+            dataSrc: function(json) {
+                if (!json.data) {
+                    console.error("Erreur : 'data' est undefined dans la réponse AJAX", json);
+                    return [];
+                }
+                return json.data;
+            }
+        },
+        columns: [
+            { data: 'nb', name: 'id', className: 'text-center' },
+            { data: 'libele', name: 'libelle', className: 'text-center' },
+            { data: 'description', name: 'description', className: 'text-center' },
+            {
+                data: null,
+                orderable: false,
+                searchable: false,
+                className: 'text-center',
+                render: function(data) {
+                    return `
+                        <div class="dropdown">
+                            <a href="#" data-toggle="dropdown" class="btn btn-warning dropdown-toggle" style="color: white;">Options</a>
+                            <div class="dropdown-menu">
+                                <a href="#" onclick="event.preventDefault(); edit_entity(${data.id})" class="dropdown-item has-icon"><i class="far fa-edit"></i> Modifier</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" onclick="event.preventDefault(); delete_entity(${data.id});" class="dropdown-item has-icon text-danger"><i class="far fa-trash-alt"></i> Supprimer</a>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        ],
+        initComplete: function() {
+            console.log("Table initialisée avec succès !");
+        },
+        drawCallback: function() {
+            console.log("Table redessinée !");
+        }
+    });
+}
 
     function create_entity_store() {
         var data = {
@@ -654,7 +665,9 @@
     }
 
     $(document).ready(function() {
-        load_file_schemes();
+        setTimeout(function() {
+            load_file_schemes();
+        }, 100);
         load_entity_on_page();
     });
 </script>

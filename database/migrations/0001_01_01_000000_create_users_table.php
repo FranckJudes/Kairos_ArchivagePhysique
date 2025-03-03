@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('role',['admin','user','super'])->default('user');
             $table->enum('status',['active','inactive'])->default('active');
             $table->string('profile_image')->nullable();
-            $table->string('birthday')->nullable();
+            $table->date('birthday')->nullable();
             $table->string('phone')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('type_utilisateur',['0','1'])->default('0');

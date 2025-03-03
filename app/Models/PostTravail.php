@@ -15,4 +15,10 @@ class PostTravail extends Model
     {
         return $this->belongsTo(EntiteOrganisation::class);
     }
+
+    public function fichesTravail()
+    {
+        return $this->hasMany(FicheTravail::class);
+    }
+  
 }

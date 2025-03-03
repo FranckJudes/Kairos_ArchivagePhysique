@@ -50,9 +50,9 @@
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-primary text-white-all">
-            <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> Home</a></li>
-            <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> App</a></li>
-            <li class="breadcrumb-item"><a href="#" style="color: white"><i class="fas fa-tachometer-alt"></i> Gestions des jours Feries</a></li>
+            <li class="breadcrumb-item" ><a href="{{route('dashboard.index')}}" style="color: white"><i class="fas fa-tachometer-alt"></i>&nbsp; Home</a></li>
+            <li class="breadcrumb-item" ><a href="#" style="color: white"><i class="fas fa-cog"></i>&nbsp; App</a></li>
+            <li class="breadcrumb-item"><a href="#" style="color: white"><i class="far fa-calendar-alt"></i> &nbsp;Gestion des jours fériés</a></li>
         </ol>
     </nav>
     <div class="row text-center">
@@ -77,7 +77,7 @@
 
         <div class="col-md-9"> <div class="card">
                 <div class="card-header">
-                    <h4>Jour Ferier</h4>
+                    <h4>Jours fériés</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -96,7 +96,7 @@
                                     <tr>
                                         <td class="text-center">{{ $key + 1 }}</td>
                                         <td class="text-center">{{ $value->nom }}</td>
-                                        <td class="text-center">{{ $value->date }}</td>
+                                        <td class="text-center">{{  date('d-m-Y', strtotime($value->date))  }}</td>
                                         <td class="text-center">
                                             <a class="btn btn-danger" href="#" onclick="show_delete_ferrier_jours({{ $value->id }})">
                                                 <i class="fa fa-trash"></i> Supprimer

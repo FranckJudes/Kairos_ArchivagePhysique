@@ -10,7 +10,7 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="{{ asset('assets/bundles/izitoast/css/iziToast.min.css') }}">
 
-    <title>Stats Kairos</title>
+    <title>Kairos - Monitor</title>
 
     <!-- Bootstrap Core and vandor -->
     <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" />
@@ -179,12 +179,13 @@
 
 
     <div id="left-sidebar" class="sidebar ">
-        <h5 class="brand-name">Kairos-Monitors <a href="javascript:void(0)" class="menu_option float-right"><i class="icon-grid font-16" data-toggle="tooltip" data-placement="left" title="Grid & List Toggle"></i></a></h5>
+        <h5 class="brand-name">Kairos-Monitor <a href="javascript:void(0)" class="menu_option float-right"><i class="icon-grid font-16" data-toggle="tooltip" data-placement="left" title="Grid & List Toggle"></i></a></h5>
         <nav id="left-sidebar-nav" class="sidebar-nav">
             <ul class="metismenu">
                 <li class="g_heading">Project</li>
                 <li class="active"><a href="{{route('dashboard.index')}}"><i class="fa fa-dashboard"></i><span>&nbsp; Dashboard</span></a></li>
                 <li><a href="{{route('performances.index')}}"><i class="fa fa-list-ol"></i><span>&nbsp; Performances</span></a></li>
+                <li><a href="{{route('presences.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Gestion des presences</span></a></li>
                 <li class="d">App</li>
                 <li><a href="{{route('intervenants.index')}}"><i class="fa fa-address-book"></i><span>&nbsp; Intervenants</span></a></li>
                 <li><a href="{{route('objectifs.index')}}"><i class="fas fa-object-ungroup"></i><span>&nbsp; Objectifs</span></a></li>
@@ -192,7 +193,6 @@
                 <li><a href="{{route('planification.index')}}"><i class="far fa-calendar-times"></i><span>&nbsp; Planification</span></a></li>
                 <li><a href="{{route('users.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Utilisateurs</span></a></li>
                 <li><a href="{{route('entity.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Plan de classement </span></a></li>
-                <li><a href="{{route('presences.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Gestion des presences</span></a></li>
                 <li><a href="{{route('etats.index')}}"><i class="fas fa-users-cog"></i><span>&nbsp; Les etats</span></a></li>
 
             </ul>

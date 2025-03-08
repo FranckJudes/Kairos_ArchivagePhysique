@@ -143,53 +143,50 @@
         <div class="card-header">
             <h4>Formulaire d'enregistrement</h4>
         </div>
-
-          <div class="card-body tab-content tab-bordered">
-            <div class="form-group">
-                <label for="nom">Intitule de travail </label>
-                <input type="text" class="form-control" id="post_travail_id" name="post_travail_id">
-            </div>
+        <form action="{{route('post_travail.store')}}" method="POST">
+            @method("POST")
+            @csrf
+            <div class="card-body tab-content tab-bordered">
+                <div class="form-group">
+                    <label for="nom">Intitule de travail </label>
+                    <input type="text" class="form-control" id="post_travail_id" placeholder="Intitule" name="intitule">
+                </div>
+                <input type="hidden" class="form-control" id="post_travail_id"  value="{{$fiche->id}}"  placeholder="Intitule" name="post_travail_id">
                 <div class="form-group">
                     <label for="nom">Enjeux</label>
-                    <input type="text" class="form-control" id="intitule" name="intitule">
+                    <input type="text" class="form-control" placeholder="Enjeux" id="intitule" name="intitule">
                 </div>
                 <div class="form-group">
                     <label for="nom">Missions</label>
-                    <input type="text" class="form-control" id="intitule" name="mission">
+                    <input type="text" class="form-control" placeholder="mission" id="intitule" name="mission">
                 </div>
                 <div class="form-group">
                     <label for="nom">Activites :</label>
-                    <div class="input-group">
                       <select class="custom-select"  id="inputGroupSelect05">
-                        <option selected>Choose...</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                            @foreach ($domaine_valeurs_elements as $key => $value)
+                                <option value="">{{$value->libele}}</option>
+                            @endforeach
                       </select>
-                      <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">Button</button>
-                      </div>
-                    </div>
                   </div>
                 <div class="form-group">
                     <label for="nom">Lieu de travail </label>
-                    <input type="text" class="form-control" id="lieu_du_poste" name="lieu_du_poste">
+                    <input type="text" class="form-control" placeholder="lieu de travail" id="lieu_du_poste" name="lieu_du_poste">
                 </div>
                 <div class="form-group">
                     <label for="nom">Conditions </label>
                     <input type="text" class="form-control" id="lieu_du_poste" name="lieu_du_poste">
-                    {{-- <textarea name="" class="form-control" id="" cols="10" rows="10"></textarea> --}}
                 </div>
 
                 <div class="form-group">
                     <label for="nom">Horaires de travail </label>
                     <input type="text" class="form-control" id="lieu_du_poste" name="lieu_du_poste">
                 </div>
-
                 <div class="form-group text-right">
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
           </div>
+        </form>
+
       </div>
     </div>
 </div>

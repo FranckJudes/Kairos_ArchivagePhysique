@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DomaineValeur;
 use App\Models\FicheTravail;
 use App\Models\PostTravail;
 use Illuminate\Http\Request;
@@ -55,8 +56,10 @@ class FichePostController extends Controller
     public function show(string $id)
     {
         $fiche = PostTravail::findOrFail($id);
+        $domaine_elments = DomaineValeur::where('libele','Activites')->with('domaine_valeurs_elements')->first();
+        $domaine_valeurs_elements = $domaine_elments->domaine_valeurs_elements;
         $post = FicheTravail::where('post_travail_id',$id)->first();
-        return view('Org.fiche_post',compact('post','fiche'));
+        return view('Org.fiche_post',compact('post','fiche','domaine_valeurs_elements'));
 
     }
 
@@ -102,6 +105,20 @@ class FichePostController extends Controller
             toastr()->success('Fiche supprimée avec succès !');
             return redirect()->back();
         } catch (\Throwable $th) {
+            toastr()->error($th->getMessage());
+            return redirect()->back();
+        }
+    }
+
+
+    public function store_fiche(Request $request){
+        return $request;
+        try {
+
+
+
+
+        } catch (\Exception $th) {
             toastr()->error($th->getMessage());
             return redirect()->back();
         }

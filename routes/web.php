@@ -63,6 +63,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/store_subentity', [EntitesController::class, 'store_subentity'])->name('store_subentity');
     Route::delete('/destroy_entity/{id}', [TypeControllerController::class, 'destroy_entity'])->name('destroy_entity');
     Route::get('/add_post_work/{id}', [EntitesController::class, 'go_to_view_add_post_job'])->name('go_to_view_add_post_job');
+    // Route::post('/store_fiche', [FichePostController::class, 'store_fiche'])->name('store_fiche');
 
     Route::controller(AuthController::class)->group(function () {
         Route::get('/logout', 'logout')->name('logout');

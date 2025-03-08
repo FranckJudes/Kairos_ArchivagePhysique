@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DomaineValeur;
 use App\Models\EntiteOrganisation;
 use App\Models\PostTravail;
 use App\Models\TypeEntite;
@@ -220,7 +221,8 @@ class EntitesController extends Controller
 
         $entite = EntiteOrganisation::where('id',$id)->first();
         $posts = PostTravail::where('entite_id',$id)->get();
-        return view('Org.post_work',compact('entite','posts'));
+        $domaine_elments = DomaineValeur::where('libele','Activites')->with('domaine_valeurs_elements')->get();
+        return view('Org.post_work',compact('entite','posts','domaine_elments'));
 
     }
 
